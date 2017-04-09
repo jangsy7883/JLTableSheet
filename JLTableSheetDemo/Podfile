@@ -1,0 +1,6 @@
+platform :ios, '8.2'
+use_frameworks!
+
+target 'JLTableSheetDemo' do
+    pod 'STPopup'
+end

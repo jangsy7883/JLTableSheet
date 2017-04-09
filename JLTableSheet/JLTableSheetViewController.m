@@ -1,0 +1,508 @@
+//
+//  JLTableSheetViewController.m
+//  JLTableSheetDemo
+//
+//  Created by  Studio on 2017. 4. 2..
+//  Copyright © 2017년 Jangsy. All rights reserved.
+//
+
+#import "JLTableSheetViewController.h"
+#import <STPopup/STPopup.h>
+
+@interface JLTableSheetViewController ()<UITableViewDataSource,UITableViewDelegate,STPopupControllerTransitioning,UIGestureRecognizerDelegate>
+
+@property (nonatomic, assign) CGFloat minSheetHeight;
+
+@property (nonatomic, strong) UIView *maskView;
+@property (nonatomic, strong) UIView *containerView;
+@property (nonatomic, strong) UIView * backgroundView;
+
+@property (nonatomic, strong) UITableView *tableView;
+
+@property (nonatomic, strong) UIView *headerContainerView;
+@property (nonatomic, strong) UINavigationBar *navigationBar;
+@property (nonatomic, assign) BOOL isDismiss;
+@end
+
+@implementation JLTableSheetViewController
+
+#pragma mark - init
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        self.contentSizeInPopup = [UIScreen mainScreen].bounds.size;
+        
+        _isDismiss = NO;
+        _rowHegiht = 50;
+        _allowsMultipleSelection = NO;
+        _hidesCompleteButton = NO;
+        _hidesCancelButton = NO;
+        _minVisibleRow = 4.5;
+        _navigationBarHidden = NO;
+        _navigationHegiht = 44;
+    }
+    return self;
+}
+
+- (instancetype)initWithItems:(NSArray <JLTableSheetItem *> *)items {
+    self = [self init];
+    if (self) {
+        self.items = items;
+    }
+    return self;
+}
+
+#pragma mark - view lifecycle
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    self.popupController.transitioning = self;
+    self.popupController.containerView.backgroundColor = [UIColor clearColor];
+    self.view.backgroundColor = [UIColor clearColor];
+    
+    _minSheetHeight = MIN(_rowHegiht*_minVisibleRow, _rowHegiht * self.items.count);
+    
+    //
+    self.backgroundView = [[UIView alloc] init];
+    self.backgroundView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:self.backgroundView];
+    
+    self.maskView = [[UIView alloc] init];
+    self.maskView.backgroundColor = UIColor.whiteColor;
+    self.containerView = [[UIView alloc] init];
+    self.containerView.maskView = self.maskView;
+    [self.view addSubview:self.containerView];
+    
+    
+    //tableView
+    if (self.cellClass) {
+        if ([self.cellClass respondsToSelector:@selector(nibForSheetCell)]) {
+            [self.tableView registerNib:[self.cellClass performSelector:@selector(nibForSheetCell)] forCellReuseIdentifier:@"Cell"];
+        }else{
+            [self.tableView registerClass:self.cellClass forCellReuseIdentifier:@"Cell"];
+        }
+    }
+    else{
+        [self.tableView registerClass:[JLTableSheetCell class] forCellReuseIdentifier:@"Cell"];
+    }
+    
+//    self.tableView sele
+    
+    self.tableView.rowHeight = _rowHegiht;
+    self.tableView.contentInset = UIEdgeInsetsMake(self.contentSizeInPopup.height-_minSheetHeight, 0, 0, 0);
+    [self.tableView setContentOffset:CGPointMake(0, -self.tableView.contentInset.top) animated:NO];
+    [self.containerView addSubview:self.tableView];
+    
+    UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureRecognizerForTableView:)];
+    recognizer.delegate = self;
+    [self.tableView addGestureRecognizer:recognizer];
+    
+    //headerContentView
+    self.headerContainerView = [[UIView alloc] init];
+    self.headerContainerView.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:self.headerContainerView];
+    
+    //headerView
+    if (self.headerView) {
+        [self.headerContainerView addSubview:self.headerView];
+    }
+    
+    //navigationBar
+    [self.headerContainerView addSubview:self.navigationBar];
+    
+    [self reloadBarButtonItems];
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    [self layoutContainerView];
+    [self layoutHeaderContainerView];
+}
+
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    
+    [self layoutContainerView];
+    [self layoutHeaderContainerView];
+}
+
+#pragma mark - layout
+
+- (void)layoutContainerView {
+    self.containerView.frame = self.view.bounds;
+    self.tableView.frame = self.containerView.bounds;
+}
+
+- (void)layoutHeaderContainerView {
+    CGFloat statusBarHeight = 20;
+    CGFloat navigationBarHeight = _navigationBarHidden ? 0 : _navigationHegiht;
+    CGFloat headerContentHeight = (navigationBarHeight+statusBarHeight)+CGRectGetHeight(self.headerView.frame);
+    
+    CGFloat y = MAX(0, -(self.tableView.contentOffset.y + headerContentHeight));
+    CGFloat navigationBarY = MAX(0, MIN(statusBarHeight, y));
+
+    self.headerContainerView.frame = CGRectMake(0,
+                                                y ,
+                                                CGRectGetWidth(self.view.bounds),
+                                                headerContentHeight);
+    
+    self.navigationBar.frame = CGRectMake(0,
+                                          navigationBarY,
+                                          CGRectGetWidth(self.headerContainerView.bounds),
+                                          navigationBarHeight+(20-navigationBarY));
+    
+    if (self.headerView) {
+        self.headerView.frame = CGRectMake(0,
+                                           CGRectGetMaxY(self.navigationBar.frame),
+                                           CGRectGetWidth(self.headerContainerView.bounds),
+                                           CGRectGetHeight(self.headerView.frame));
+    }
+    
+    if (self.navigationBar.hidden) {
+        self.maskView.frame = CGRectMake(0,
+                                         CGRectGetMaxY(self.navigationBar.frame),
+                                         CGRectGetWidth(self.containerView.bounds),
+                                         CGRectGetHeight(self.containerView.bounds));
+    }
+    else{
+        self.maskView.frame = self.containerView.bounds;
+    }
+    
+    self.backgroundView.frame = CGRectMake(0,
+                                           CGRectGetMinY(self.headerContainerView.frame)+statusBarHeight,
+                                           CGRectGetWidth(self.view.bounds),
+                                           CGRectGetHeight(self.view.bounds)-CGRectGetMinY(self.navigationBar.frame));
+}
+
+- (void)registerNib:(nullable UINib *)nib {
+    [self.tableView registerNib:nib forCellReuseIdentifier:@"Cell"];
+}
+
+- (void)registerClass:(nullable Class)cellClass {
+    [self.tableView registerClass:cellClass forCellReuseIdentifier:@"Cell"];
+}
+
+#pragma mark -
+
+- (void)presentInViewController:(UIViewController*)viewController {
+    STPopupController *popupController = [[STPopupController alloc] initWithRootViewController:self];
+    popupController.navigationBarHidden = YES;
+    popupController.style = STPopupStyleBottomSheet;
+    popupController.transitionStyle = STPopupTransitionStyleCustom;
+    [popupController presentInViewController:viewController];
+}
+
+- (void)dismiss {
+    [self dismissWithCompletion:nil];
+}
+
+- (void)dismissWithCompletion:(void (^)(void))completion {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.popupController dismissWithCompletion:^{
+            if (completion) {
+                completion();
+            }
+            if (self.completion) {
+                self.completion(NO, self.selectedItems);
+                self.completion = nil;
+            }
+        }];
+    });
+}
+
+#pragma mark - reload
+
+- (void)reloadBarButtonItems {
+    
+    if (!_hidesCompleteButton && _allowsMultipleSelection) {
+
+        UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+                                                                              target:self
+                                                                              action:@selector(pressedCompleteButton:)];
+        barButtonItem.enabled = (self.selectedItems.count > 0);
+        self.navigationBar.topItem.rightBarButtonItem = barButtonItem;
+    }
+    
+    if (!_hidesCancelButton) {
+        self.navigationBar.topItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                                                                              target:self
+                                                                                              action:@selector(pressedCancelButton:)];
+    }
+}
+
+#pragma mark - pressedButton
+
+- (IBAction)tapGestureRecognizerForTableView:(id)sender {
+    if ([sender isKindOfClass:[UIGestureRecognizer class]]) {
+        UIGestureRecognizer *recognizer = (UIGestureRecognizer *)sender;
+        CGPoint point = [recognizer locationInView:recognizer.view];
+        
+        if (point.y < 0) {
+            [self pressedCancelButton:nil];
+        }
+    }
+}
+
+- (IBAction)pressedCancelButton:(id)sender {
+    [self dismissWithCompletion:^{
+        if (self.completion) {
+            self.completion(NO, self.selectedItems);
+            self.completion = nil;
+        }
+        
+        self.changedSelectedItems = nil;
+    }];
+}
+
+- (IBAction)pressedCompleteButton:(id)sender {
+    [self dismissWithCompletion:^{
+        if (self.completion) {
+            self.completion(YES, self.selectedItems);
+            self.completion = nil;
+        }
+        
+        self.changedSelectedItems = nil;
+    }];
+}
+
+#pragma mark - UITableViewDataSource
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.items.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+        
+    JLTableSheetItem *item = [self itemAtIndex:indexPath.row];
+    
+    if ([cell respondsToSelector:@selector(renderingSheetCellWithItem:)]) {
+        [cell performSelector:@selector(renderingSheetCellWithItem:) withObject:item];
+    }
+
+    return cell;
+}
+
+#pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    JLTableSheetItem *item = [self itemAtIndex:indexPath.row];
+    if (item && item.enabled) {
+        item.selected = !item.selected;
+        
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        if ([cell respondsToSelector:@selector(renderingSheetCellWithItem:)]) {
+            [cell performSelector:@selector(renderingSheetCellWithItem:) withObject:item];
+        }
+        
+        if (_allowsMultipleSelection == YES) {
+            if (self.changedSelectedItems) {
+                self.changedSelectedItems(self.selectedItems);
+            }            
+            [self reloadBarButtonItems];
+        }
+        else {
+            [self pressedCompleteButton:nil];
+        }
+    }
+}
+
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self layoutHeaderContainerView];
+    
+    CGFloat offset = scrollView.contentInset.top + scrollView.contentOffset.y;
+    
+    if (offset < -(_minSheetHeight*0.35) && !_isDismiss) {
+        _isDismiss = YES;
+        [self pressedCancelButton:nil];
+    }
+}
+
+#pragma mark - UIGestureRecognizerDelegate
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    CGPoint point = [gestureRecognizer locationInView:gestureRecognizer.view];
+    
+    CGFloat y = point.y + (CGRectGetHeight(self.headerContainerView.frame)-20);
+    return (y < 0);
+}
+
+#pragma mark - STPopupControllerTransitioning
+
+- (NSTimeInterval)popupControllerTransitionDuration:(STPopupControllerTransitioningContext *)context {
+    return context.action == STPopupControllerTransitioningActionPresent ? 0.35 : 0.5;
+}
+
+- (void)popupControllerAnimateTransition:(STPopupControllerTransitioningContext *)context completion:(void (^)())completion {
+    UIView *containerView = context.containerView;
+    if (context.action == STPopupControllerTransitioningActionPresent) {
+        containerView.transform = CGAffineTransformMakeTranslation(0, containerView.superview.bounds.size.height - containerView.frame.origin.y);
+        
+        [UIView animateWithDuration:[self popupControllerTransitionDuration:context] delay:0 usingSpringWithDamping:1 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            context.containerView.transform = CGAffineTransformIdentity;
+        } completion:^(BOOL finished) {
+            completion();
+        }];
+    }
+    else {
+        CGAffineTransform lastTransform = containerView.transform;
+        containerView.transform = CGAffineTransformIdentity;
+        CGFloat originY = containerView.frame.origin.y;
+        containerView.transform = lastTransform;
+        
+        [UIView animateWithDuration:[self popupControllerTransitionDuration:context] delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+            containerView.transform = CGAffineTransformMakeTranslation(0, containerView.superview.bounds.size.height - originY + containerView.frame.size.height);
+        } completion:^(BOOL finished) {
+            containerView.transform = CGAffineTransformIdentity;
+            completion();
+        }];
+    }
+}
+
+#pragma mark - item
+
+- (JLTableSheetItem *)itemAtIndex:(NSInteger)index {
+    if (self.items.count > index) {
+        return [self.items objectAtIndex:index];
+    }
+    return nil;
+}
+
+#pragma mark - setters
+
+- (void)setHidesCompleteButton:(BOOL)hidesCompleteButton {
+    if (_hidesCompleteButton != hidesCompleteButton) {
+        _hidesCompleteButton = hidesCompleteButton;
+        
+        if ([self isViewLoaded]) {
+            [self reloadBarButtonItems];
+        }
+    }
+}
+
+- (void)setHidesCancelButton:(BOOL)hidesCancelButton {
+    if (_hidesCancelButton != hidesCancelButton) {
+        _hidesCancelButton = hidesCancelButton;
+        
+        if ([self isViewLoaded]) {
+            [self reloadBarButtonItems];
+        }
+    }
+}
+
+- (void)setAllowsMultipleSelection:(BOOL)allowsMultipleSelection {
+    if(_allowsMultipleSelection != allowsMultipleSelection) {
+        _allowsMultipleSelection = allowsMultipleSelection;
+    }
+}
+
+- (void)setMinVisibleRow:(CGFloat)minVisibleRow {
+    if (_minVisibleRow != minVisibleRow) {
+        _minVisibleRow = minVisibleRow;
+        
+        _minSheetHeight = MIN(_rowHegiht*_minVisibleRow, _rowHegiht * self.items.count);
+        
+        if ([self isViewLoaded]) {
+            [self layoutHeaderContainerView];
+        }
+    }
+}
+
+- (void)setNavigationBarHidden:(BOOL)navigationBarHidden {
+    if (_navigationBarHidden != navigationBarHidden) {
+        _navigationBarHidden = navigationBarHidden;
+        
+        if ([self isViewLoaded]) {
+            [self layoutHeaderContainerView];
+        }
+    }
+}
+
+- (void)setSeparatorStyle:(UITableViewCellSeparatorStyle)separatorStyle {
+    self.tableView.separatorStyle = separatorStyle;
+}
+
+- (void)setSeparatorColor:(UIColor *)separatorColor {
+    self.tableView.separatorColor = separatorColor;
+}
+
+- (void)setSeparatorInset:(UIEdgeInsets)separatorInset {
+    self.tableView.separatorInset = separatorInset;
+}
+
+#pragma mark - getters
+
+- (UITableView *)tableView {
+    if (!_tableView) {
+        _tableView = [[UITableView alloc] init];
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+        _tableView.tableFooterView = [UIView new];
+        _tableView.backgroundColor = [UIColor clearColor];
+        _tableView.showsHorizontalScrollIndicator = NO;
+        _tableView.showsVerticalScrollIndicator = NO;
+        _tableView.allowsMultipleSelection = _allowsMultipleSelection;
+    }
+    return _tableView;
+}
+
+- (UINavigationBar *)navigationBar {
+    if (!_navigationBar) {
+        _navigationBar = [[UINavigationBar alloc] init];
+        _navigationBar.clipsToBounds = YES;
+        
+        UINavigationItem *item = [[UINavigationItem alloc] init];
+        _navigationBar.items = @[item];
+    }
+    return _navigationBar;
+}
+
+- (UITableViewCellSeparatorStyle)separatorStyle {
+    return self.tableView.separatorStyle;
+}
+
+- (UIColor *)separatorColor {
+    return self.tableView.separatorColor;
+}
+
+- (UIEdgeInsets)separatorInset {
+    return self.tableView.separatorInset;
+}
+
+- (NSArray <JLTableSheetItem *> *)selectedItems {
+    NSMutableArray *selectedItems = [NSMutableArray array];
+    
+    for (JLTableSheetItem *item in self.items) {
+        if (item.selected) {
+            [selectedItems addObject:item];
+        }
+    }
+    return [NSArray arrayWithArray:selectedItems];
+}
+
+//- (UINavigationItem *)navigationItem {
+//    NSLog(@"%@",self.navigationBar.topItem);
+//    return self.navigationBar.topItem;
+//}
+
+@end
+
+@implementation UIViewController (JLTableSheetViewController)
+
+- (JLTableSheetViewController *)tableSheetViewController {
+    for (JLTableSheetViewController *viewController in self.presentedViewController.childViewControllers) {
+        if ([viewController isKindOfClass:[JLTableSheetViewController class]]) {
+            return (JLTableSheetViewController*)viewController;
+        }
+    }
+    return nil;
+}
+
+@end

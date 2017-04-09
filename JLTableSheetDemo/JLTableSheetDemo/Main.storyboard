@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IDb-vN-kRq">
+                                <rect key="frame" x="110.5" y="130" width="154" height="30"/>
+                                <state key="normal" title="Single Selection Sheet"/>
+                                <connections>
+                                    <action selector="pressedSingleSelectionSheetButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JCx-RU-IAK"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ic5-5V-1U2">
+                                <rect key="frame" x="73.5" y="190" width="227" height="30"/>
+                                <state key="normal" title="Custom NavigationBarItem Sheet"/>
+                                <connections>
+                                    <action selector="pressedCustomNavigationBarItemSheetButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cmu-oc-9Vm"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ADp-tJ-VI0">
+                                <rect key="frame" x="104" y="70" width="166" height="30"/>
+                                <state key="normal" title="Multiple Selection Sheet"/>
+                                <connections>
+                                    <action selector="pressedMultipleSelectionSheetButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0VY-Mp-COh"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZB2-1z-bSG">
+                                <rect key="frame" x="164" y="250" width="46" height="30"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="pressedSheetButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="a45-sW-afb"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="ZB2-1z-bSG" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="97o-OL-aAQ"/>
+                            <constraint firstItem="ZB2-1z-bSG" firstAttribute="top" secondItem="Ic5-5V-1U2" secondAttribute="bottom" constant="30" id="MVv-hX-VG6"/>
+                            <constraint firstItem="IDb-vN-kRq" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="UVh-Pg-YYQ"/>
+                            <constraint firstItem="ADp-tJ-VI0" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="50" id="a9E-g7-Jbz"/>
+                            <constraint firstItem="ADp-tJ-VI0" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="eAn-r0-8up"/>
+                            <constraint firstItem="Ic5-5V-1U2" firstAttribute="top" secondItem="IDb-vN-kRq" secondAttribute="bottom" constant="30" id="spU-f5-FFZ"/>
+                            <constraint firstItem="Ic5-5V-1U2" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="y8l-QU-x29"/>
+                            <constraint firstItem="IDb-vN-kRq" firstAttribute="top" secondItem="ADp-tJ-VI0" secondAttribute="bottom" constant="30" id="yve-dh-J9x"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+    </scenes>
+</document>

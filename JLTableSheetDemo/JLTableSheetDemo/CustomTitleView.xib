@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fQp-Y5-zXi" customClass="CustomTitleView">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="42"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X9N-Sl-qfc">
+                    <rect key="frame" x="0.0" y="11.5" width="375" height="19.5"/>
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                    <color key="textColor" red="0.086274509799999996" green="0.38431372549999998" blue="0.73333333329999995" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kG4-g5-j7i">
+                    <rect key="frame" x="180" y="41.5" width="15" height="0.5"/>
+                    <color key="backgroundColor" red="0.086274509799999996" green="0.38431372549999998" blue="0.73333333329999995" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="Vbd-1p-YCF"/>
+                        <constraint firstAttribute="width" constant="15" id="lt0-lG-JSq"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="kG4-g5-j7i" secondAttribute="bottom" id="1lF-Pj-yDC"/>
+                <constraint firstAttribute="height" constant="42" id="G2H-SI-xdC"/>
+                <constraint firstAttribute="trailing" secondItem="X9N-Sl-qfc" secondAttribute="trailing" id="HA9-LA-At0"/>
+                <constraint firstItem="X9N-Sl-qfc" firstAttribute="centerY" secondItem="fQp-Y5-zXi" secondAttribute="centerY" id="Mt9-sx-1Ie"/>
+                <constraint firstItem="X9N-Sl-qfc" firstAttribute="leading" secondItem="fQp-Y5-zXi" secondAttribute="leading" id="VP6-YV-Tst"/>
+                <constraint firstItem="kG4-g5-j7i" firstAttribute="centerX" secondItem="fQp-Y5-zXi" secondAttribute="centerX" id="q1a-ya-tuk"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="titleLabel" destination="X9N-Sl-qfc" id="W30-N8-Smb"/>
+            </connections>
+        </view>
+    </objects>
+</document>
