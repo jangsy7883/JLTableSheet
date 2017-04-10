@@ -21,6 +21,7 @@
 @property (nonatomic, assign) CGFloat minSheetHeight;
 @property (nonatomic, assign) BOOL isDismiss;
 
+@property (nonatomic, readonly) CGSize contentSize;
 @end
 
 @implementation JLTableSheetViewController
@@ -30,8 +31,15 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        self.contentSizeInPopup = [UIScreen mainScreen].bounds.size;
+        CGSize size = [UIScreen mainScreen].bounds.size;
         
+//        self.contentSizeInPopup = [UIScreen mainScreen].bounds.size;
+        self.contentSizeInPopup = CGSizeMake(MIN(size.width, size.height),
+                                             MAX(size.width, size.height));
+
+        
+        self.landscapeContentSizeInPopup = CGSizeMake(MAX(size.width, size.height),
+                                                      MIN(size.width, size.height));
         _isDismiss = NO;
         _rowHegiht = 50;
         _allowsMultipleSelection = NO;
@@ -59,8 +67,13 @@
     
     self.popupController.transitioning = self;
     self.popupController.containerView.backgroundColor = [UIColor clearColor];
+
+    UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backgroundViewDidTap:)];
+    recognizer.delegate = self;
+    [self.view addGestureRecognizer:recognizer];
     self.view.backgroundColor = [UIColor clearColor];
     
+    //
     _minSheetHeight = MIN(_rowHegiht*_minVisibleRow, _rowHegiht * self.items.count);
     
     //
@@ -74,7 +87,6 @@
     self.containerView.maskView = self.maskView;
     [self.view addSubview:self.containerView];
     
-    
     //tableView
     if (self.cellClass) {
         if ([self.cellClass respondsToSelector:@selector(nibForSheetCell)]) {
@@ -86,17 +98,9 @@
     else{
         [self.tableView registerClass:[JLTableSheetCell class] forCellReuseIdentifier:@"Cell"];
     }
-    
-//    self.tableView sele
-    
+
     self.tableView.rowHeight = _rowHegiht;
-    self.tableView.contentInset = UIEdgeInsetsMake(self.contentSizeInPopup.height-_minSheetHeight, 0, 0, 0);
-    [self.tableView setContentOffset:CGPointMake(0, -self.tableView.contentInset.top) animated:NO];
     [self.containerView addSubview:self.tableView];
-    
-    UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureRecognizerForTableView:)];
-    recognizer.delegate = self;
-    [self.tableView addGestureRecognizer:recognizer];
     
     //headerContentView
     self.headerContainerView = [[UIView alloc] init];
@@ -131,27 +135,37 @@
 #pragma mark - layout
 
 - (void)layoutContainerView {
-    self.containerView.frame = self.view.bounds;
+    UIEdgeInsets contentInset = UIEdgeInsetsMake(CGRectGetHeight(self.view.bounds)-_minSheetHeight, 0, 0, 0);
+    if (!UIEdgeInsetsEqualToEdgeInsets(contentInset, self.tableView.contentInset)) {
+        self.tableView.contentInset = contentInset;
+        [self.tableView setContentOffset:CGPointMake(0, -self.tableView.contentInset.top) animated:NO];
+    }
+    
+    CGFloat width = MIN(CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds));
+    self.containerView.frame = CGRectMake((CGRectGetWidth(self.view.bounds)-width)/2,
+                                          0,
+                                          width,
+                                          CGRectGetHeight(self.view.bounds));
     self.tableView.frame = self.containerView.bounds;
 }
 
 - (void)layoutHeaderContainerView {
-    CGFloat statusBarHeight = 20;
+    CGFloat statusBarHeight = CGRectGetHeight([UIApplication sharedApplication].statusBarFrame);
     CGFloat navigationBarHeight = _navigationBarHidden ? 0 : _navigationHegiht;
     CGFloat headerContentHeight = (navigationBarHeight+statusBarHeight)+CGRectGetHeight(self.headerView.frame);
     
     CGFloat y = MAX(0, -(self.tableView.contentOffset.y + headerContentHeight));
     CGFloat navigationBarY = MAX(0, MIN(statusBarHeight, y));
 
-    self.headerContainerView.frame = CGRectMake(0,
+    self.headerContainerView.frame = CGRectMake(CGRectGetMinX(self.containerView.frame),
                                                 y ,
-                                                CGRectGetWidth(self.view.bounds),
+                                                CGRectGetWidth(self.containerView.bounds),
                                                 headerContentHeight);
     
     self.navigationBar.frame = CGRectMake(0,
                                           navigationBarY,
                                           CGRectGetWidth(self.headerContainerView.bounds),
-                                          navigationBarHeight+(20-navigationBarY));
+                                          navigationBarHeight+(statusBarHeight-navigationBarY));
     
     if (self.headerView) {
         self.headerView.frame = CGRectMake(0,
@@ -170,10 +184,10 @@
         self.maskView.frame = self.containerView.bounds;
     }
     
-    self.backgroundView.frame = CGRectMake(0,
+    self.backgroundView.frame = CGRectMake(CGRectGetMinX(self.containerView.frame),
                                            CGRectGetMinY(self.headerContainerView.frame)+statusBarHeight,
-                                           CGRectGetWidth(self.view.bounds),
-                                           CGRectGetHeight(self.view.bounds)-CGRectGetMinY(self.navigationBar.frame));
+                                           CGRectGetWidth(self.containerView.bounds),
+                                           CGRectGetHeight(self.containerView.bounds)-CGRectGetMinY(self.navigationBar.frame));
 }
 
 #pragma mark -
@@ -224,17 +238,10 @@
     }
 }
 
-#pragma mark - pressedButton
+#pragma mark - EVNET
 
-- (IBAction)tapGestureRecognizerForTableView:(id)sender {
-    if ([sender isKindOfClass:[UIGestureRecognizer class]]) {
-        UIGestureRecognizer *recognizer = (UIGestureRecognizer *)sender;
-        CGPoint point = [recognizer locationInView:recognizer.view];
-        
-        if (point.y < 0) {
-            [self pressedCancelButton:nil];
-        }
-    }
+- (IBAction)backgroundViewDidTap:(id)sender {
+    [self pressedCancelButton:nil];
 }
 
 - (IBAction)pressedCancelButton:(id)sender {
@@ -319,10 +326,14 @@
 #pragma mark - UIGestureRecognizerDelegate
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
-    CGPoint point = [gestureRecognizer locationInView:gestureRecognizer.view];
+    CGPoint point = [gestureRecognizer locationInView:self.tableView];
     
-    CGFloat y = point.y + (CGRectGetHeight(self.headerContainerView.frame)-20);
-    return (y < 0);
+    if ((point.x >= 0 && point.x <= CGRectGetWidth(self.tableView.bounds)) &&
+        (point.y >= -CGRectGetHeight(self.headerContainerView.frame))) {
+        return NO;
+    }
+    
+    return YES;
 }
 
 #pragma mark - STPopupControllerTransitioning

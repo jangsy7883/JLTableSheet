@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "JLTableSheet"
-  s.version      = "1.1"
+  s.version      = "1.2"
   s.summary      = "JLTableSheet"
   s.homepage     = "https://github.com/jangsy7883/JLTableSheet"
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
