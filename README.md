@@ -20,8 +20,8 @@ pod 'JLTableSheet'
 NSArray* fruitNames = @[@"Apple",@"Grape",@"Watermelon",@"Orange",@"Strawberry",@"Pineapple"];
 NSMutableArray <JLTableSheetItem *> *items = [NSMutableArray array];
 for (NSString *fruitName in fruitNames) {
-JLTableSheetItem *item = [JLTableSheetItem actionSheetItemTitle:fruitName userInfo:nil];
-[items addObject:item];
+    JLTableSheetItem *item = [JLTableSheetItem actionSheetItemTitle:fruitName userInfo:nil];
+    [items addObject:item];
 }
 
 JLTableSheetViewController *tableSheetViewController = [[JLTableSheetViewController alloc] initWithItems:items];
@@ -43,10 +43,12 @@ tableSheetViewController.allowsMultipleSelection = YES;
 tableSheetViewController.allowsMultipleSelection = NO;
 ```
 
-**NavigationBar Hidden and custom headerView **
+**NavigationBar Hidden and custom headerView**
 ```objc
+UIImageView *headerView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"headerImage"]];
+
 tableSheetViewController.navigationBarHidden = YES;
-tableSheetViewController.headerView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"headerImage"]];;
+tableSheetViewController.headerView = headerView; 
 ```
 
 ## Licence
