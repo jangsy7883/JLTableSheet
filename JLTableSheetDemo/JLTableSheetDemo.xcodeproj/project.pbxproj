@@ -23,7 +23,8 @@
 		EF53C1CB1E9B344100C76A82 /* CustomSheetCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF53C1C41E9B344100C76A82 /* CustomSheetCell.xib */; };
 		EF53C1CC1E9B344100C76A82 /* CustomTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF53C1C61E9B344100C76A82 /* CustomTitleView.m */; };
 		EF53C1CD1E9B344100C76A82 /* CustomTitleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF53C1C71E9B344100C76A82 /* CustomTitleView.xib */; };
-		EF53C2151E9B406000C76A82 /* JLTableSheet.podspec in Resources */ = {isa = PBXBuildFile; fileRef = EF53C2141E9B406000C76A82 /* JLTableSheet.podspec */; };
+		EF53C25D1E9B830800C76A82 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = EF53C25C1E9B830800C76A82 /* README.md */; };
+		EF53C25F1E9B831500C76A82 /* JLTableSheet.podspec in Resources */ = {isa = PBXBuildFile; fileRef = EF53C25E1E9B831500C76A82 /* JLTableSheet.podspec */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,7 +62,8 @@
 		EF53C1C51E9B344100C76A82 /* CustomTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTitleView.h; sourceTree = "<group>"; };
 		EF53C1C61E9B344100C76A82 /* CustomTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTitleView.m; sourceTree = "<group>"; };
 		EF53C1C71E9B344100C76A82 /* CustomTitleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomTitleView.xib; sourceTree = "<group>"; };
-		EF53C2141E9B406000C76A82 /* JLTableSheet.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = JLTableSheet.podspec; sourceTree = "<group>"; };
+		EF53C25C1E9B830800C76A82 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		EF53C25E1E9B831500C76A82 /* JLTableSheet.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = JLTableSheet.podspec; path = ../JLTableSheet.podspec; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,7 +81,8 @@
 		3D3CEF821E90ACDC002F2D93 = {
 			isa = PBXGroup;
 			children = (
-				EF53C2141E9B406000C76A82 /* JLTableSheet.podspec */,
+				EF53C25C1E9B830800C76A82 /* README.md */,
+				EF53C25E1E9B831500C76A82 /* JLTableSheet.podspec */,
 				3D97B8F01E9A333600EF8C7E /* JLTableSheet */,
 				3D3CEF8D1E90ACDC002F2D93 /* JLTableSheetDemo */,
 				3D3CEF8C1E90ACDC002F2D93 /* Products */,
@@ -239,10 +242,10 @@
 				EF53C1CB1E9B344100C76A82 /* CustomSheetCell.xib in Resources */,
 				EF53C1C91E9B344100C76A82 /* CustomHeaderView.xib in Resources */,
 				3D4EFB7F1E99E5CF009A8429 /* LaunchScreen.storyboard in Resources */,
-				EF53C2151E9B406000C76A82 /* JLTableSheet.podspec in Resources */,
 				3D3CEF9B1E90ACDC002F2D93 /* Assets.xcassets in Resources */,
 				EF53C1CD1E9B344100C76A82 /* CustomTitleView.xib in Resources */,
 				3D4EFB801E99E5CF009A8429 /* Main.storyboard in Resources */,
+				EF53C25F1E9B831500C76A82 /* JLTableSheet.podspec in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,6 +306,7 @@
 			files = (
 				EF53C1CC1E9B344100C76A82 /* CustomTitleView.m in Sources */,
 				EF53C1CA1E9B344100C76A82 /* CustomSheetCell.m in Sources */,
+				EF53C25D1E9B830800C76A82 /* README.md in Sources */,
 				3D3CEF961E90ACDC002F2D93 /* ViewController.m in Sources */,
 				3D97B8F91E9A333600EF8C7E /* JLTableSheetViewController.m in Sources */,
 				3D97B8F71E9A333600EF8C7E /* JLTableSheetCell.m in Sources */,

@@ -70,25 +70,28 @@
 
     JLTableSheetViewController *tableSheetViewController = [[JLTableSheetViewController alloc] initWithItems:self.items];
     tableSheetViewController.navigationBar.topItem.title = @"Choose Fruits";
+    
     tableSheetViewController.allowsMultipleSelection = YES;
     
     //
-    tableSheetViewController.hidesCompleteButton = YES;
-    tableSheetViewController.hidesCancelButton = YES;
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"Save"
                                                              style:UIBarButtonItemStyleDone
                                                             target:self
                                                             action:@selector(pressedSaveButton:)];
     item.enabled = NO;
     tableSheetViewController.navigationBar.topItem.rightBarButtonItem = item;
+    tableSheetViewController.hidesCompleteButton = YES;
+    tableSheetViewController.hidesCancelButton = YES;
     
     //Block
     __block __weak typeof(JLTableSheetViewController) *weakTableSheetViewController = tableSheetViewController;
     tableSheetViewController.changedSelectedItems = ^(NSArray<JLTableSheetItem *> *items) {
         //reload BarButtonItem
         weakTableSheetViewController.navigationBar.topItem.rightBarButtonItem.enabled = items.count > 0;
+        NSLog(@"changed selected items");
     };
     tableSheetViewController.completion = ^(BOOL isCompleteAction, NSArray<JLTableSheetItem *> *items) {
+        NSLog(@"completion");
         NSLog(@"%@",items);
     };
     
