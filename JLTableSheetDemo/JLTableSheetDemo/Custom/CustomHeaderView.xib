@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="pjb-ih-xTr" customClass="CustomHeaderView">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="goc-P0-Ha5">
+                    <rect key="frame" x="167" y="15.5" width="41.5" height="19.5"/>
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                    <color key="textColor" red="0.086274509799999996" green="0.38431372549999998" blue="0.73333333329999995" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VDt-hF-3rx">
+                    <rect key="frame" x="331" y="0.0" width="44" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="44" id="Rbs-vd-CT6"/>
+                    </constraints>
+                    <color key="tintColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                    <state key="normal" image="close"/>
+                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="drC-N6-JA5">
+                    <rect key="frame" x="180.5" y="45" width="14" height="1"/>
+                    <color key="backgroundColor" red="0.086274509799999996" green="0.38431372549999998" blue="0.73333333329999995" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="14" id="V63-R1-AAP"/>
+                        <constraint firstAttribute="height" constant="1" id="wZr-lx-jjV"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="drC-N6-JA5" secondAttribute="bottom" constant="4" id="4W7-Vm-C5t"/>
+                <constraint firstAttribute="trailing" secondItem="VDt-hF-3rx" secondAttribute="trailing" id="83J-Yw-3mR"/>
+                <constraint firstItem="goc-P0-Ha5" firstAttribute="centerY" secondItem="pjb-ih-xTr" secondAttribute="centerY" id="GTe-m6-Pea"/>
+                <constraint firstItem="drC-N6-JA5" firstAttribute="centerX" secondItem="pjb-ih-xTr" secondAttribute="centerX" id="QRe-bH-Vfj"/>
+                <constraint firstItem="goc-P0-Ha5" firstAttribute="centerX" secondItem="pjb-ih-xTr" secondAttribute="centerX" id="Tqk-HR-NR6"/>
+                <constraint firstAttribute="bottom" secondItem="VDt-hF-3rx" secondAttribute="bottom" id="teP-Wj-XXm"/>
+                <constraint firstItem="VDt-hF-3rx" firstAttribute="top" secondItem="pjb-ih-xTr" secondAttribute="top" id="wRU-yT-vD0"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="closeButton" destination="VDt-hF-3rx" id="iKJ-bd-qPz"/>
+                <outlet property="titleLabl" destination="goc-P0-Ha5" id="e8S-jx-v4M"/>
+            </connections>
+            <point key="canvasLocation" x="28" y="-302"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="close" width="22" height="22"/>
+    </resources>
+</document>
