@@ -17,10 +17,13 @@
 		3D97B8F71E9A333600EF8C7E /* JLTableSheetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D97B8F21E9A333600EF8C7E /* JLTableSheetCell.m */; };
 		3D97B8F81E9A333600EF8C7E /* JLTableSheetItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D97B8F41E9A333600EF8C7E /* JLTableSheetItem.m */; };
 		3D97B8F91E9A333600EF8C7E /* JLTableSheetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D97B8F61E9A333600EF8C7E /* JLTableSheetViewController.m */; };
-		3DC8F8601E9A487500FEE5A8 /* CustomTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DC8F85F1E9A487500FEE5A8 /* CustomTitleView.m */; };
-		3DC8F8621E9A487E00FEE5A8 /* CustomTitleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3DC8F8611E9A487E00FEE5A8 /* CustomTitleView.xib */; };
-		EFD7D02D1E979D8D004FFE8C /* CustomSheetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD7D02C1E979D8D004FFE8C /* CustomSheetCell.m */; };
-		EFD7D02F1E979F72004FFE8C /* CustomSheetCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFD7D02E1E979F72004FFE8C /* CustomSheetCell.xib */; };
+		EF53C1C81E9B344100C76A82 /* CustomHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF53C1C01E9B344100C76A82 /* CustomHeaderView.m */; };
+		EF53C1C91E9B344100C76A82 /* CustomHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF53C1C11E9B344100C76A82 /* CustomHeaderView.xib */; };
+		EF53C1CA1E9B344100C76A82 /* CustomSheetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF53C1C31E9B344100C76A82 /* CustomSheetCell.m */; };
+		EF53C1CB1E9B344100C76A82 /* CustomSheetCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF53C1C41E9B344100C76A82 /* CustomSheetCell.xib */; };
+		EF53C1CC1E9B344100C76A82 /* CustomTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF53C1C61E9B344100C76A82 /* CustomTitleView.m */; };
+		EF53C1CD1E9B344100C76A82 /* CustomTitleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF53C1C71E9B344100C76A82 /* CustomTitleView.xib */; };
+		EF53C2151E9B406000C76A82 /* JLTableSheet.podspec in Resources */ = {isa = PBXBuildFile; fileRef = EF53C2141E9B406000C76A82 /* JLTableSheet.podspec */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,16 +48,20 @@
 		3D97B8F41E9A333600EF8C7E /* JLTableSheetItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLTableSheetItem.m; sourceTree = "<group>"; };
 		3D97B8F51E9A333600EF8C7E /* JLTableSheetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLTableSheetViewController.h; sourceTree = "<group>"; };
 		3D97B8F61E9A333600EF8C7E /* JLTableSheetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JLTableSheetViewController.m; sourceTree = "<group>"; };
-		3DC8F85E1E9A487500FEE5A8 /* CustomTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTitleView.h; sourceTree = "<group>"; };
-		3DC8F85F1E9A487500FEE5A8 /* CustomTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTitleView.m; sourceTree = "<group>"; };
-		3DC8F8611E9A487E00FEE5A8 /* CustomTitleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomTitleView.xib; sourceTree = "<group>"; };
 		464625154E6820D660BC22FF /* Pods-JLActionSheetDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JLActionSheetDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-JLActionSheetDemo/Pods-JLActionSheetDemo.release.xcconfig"; sourceTree = "<group>"; };
 		90FD84E5C76F249D6DEC00AF /* Pods_JLActionSheetDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JLActionSheetDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1B6C240801DD78A6911DD30 /* Pods-JLFullScreenActionSheet.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JLFullScreenActionSheet.debug.xcconfig"; path = "Pods/Target Support Files/Pods-JLFullScreenActionSheet/Pods-JLFullScreenActionSheet.debug.xcconfig"; sourceTree = "<group>"; };
 		E153F953A795742CBD1A38BA /* Pods-JLTableSheetDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JLTableSheetDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-JLTableSheetDemo/Pods-JLTableSheetDemo.debug.xcconfig"; sourceTree = "<group>"; };
-		EFD7D02B1E979D8D004FFE8C /* CustomSheetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomSheetCell.h; sourceTree = "<group>"; };
-		EFD7D02C1E979D8D004FFE8C /* CustomSheetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomSheetCell.m; sourceTree = "<group>"; };
-		EFD7D02E1E979F72004FFE8C /* CustomSheetCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomSheetCell.xib; sourceTree = "<group>"; };
+		EF53C1BF1E9B344100C76A82 /* CustomHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomHeaderView.h; sourceTree = "<group>"; };
+		EF53C1C01E9B344100C76A82 /* CustomHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomHeaderView.m; sourceTree = "<group>"; };
+		EF53C1C11E9B344100C76A82 /* CustomHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomHeaderView.xib; sourceTree = "<group>"; };
+		EF53C1C21E9B344100C76A82 /* CustomSheetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomSheetCell.h; sourceTree = "<group>"; };
+		EF53C1C31E9B344100C76A82 /* CustomSheetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomSheetCell.m; sourceTree = "<group>"; };
+		EF53C1C41E9B344100C76A82 /* CustomSheetCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomSheetCell.xib; sourceTree = "<group>"; };
+		EF53C1C51E9B344100C76A82 /* CustomTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTitleView.h; sourceTree = "<group>"; };
+		EF53C1C61E9B344100C76A82 /* CustomTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTitleView.m; sourceTree = "<group>"; };
+		EF53C1C71E9B344100C76A82 /* CustomTitleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomTitleView.xib; sourceTree = "<group>"; };
+		EF53C2141E9B406000C76A82 /* JLTableSheet.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = JLTableSheet.podspec; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +79,7 @@
 		3D3CEF821E90ACDC002F2D93 = {
 			isa = PBXGroup;
 			children = (
+				EF53C2141E9B406000C76A82 /* JLTableSheet.podspec */,
 				3D97B8F01E9A333600EF8C7E /* JLTableSheet */,
 				3D3CEF8D1E90ACDC002F2D93 /* JLTableSheetDemo */,
 				3D3CEF8C1E90ACDC002F2D93 /* Products */,
@@ -91,9 +99,7 @@
 		3D3CEF8D1E90ACDC002F2D93 /* JLTableSheetDemo */ = {
 			isa = PBXGroup;
 			children = (
-				EFD7D02B1E979D8D004FFE8C /* CustomSheetCell.h */,
-				EFD7D02C1E979D8D004FFE8C /* CustomSheetCell.m */,
-				EFD7D02E1E979F72004FFE8C /* CustomSheetCell.xib */,
+				EF53C1BE1E9B344100C76A82 /* Custom */,
 				3D3CEF911E90ACDC002F2D93 /* AppDelegate.h */,
 				3D3CEF921E90ACDC002F2D93 /* AppDelegate.m */,
 				3D3CEF941E90ACDC002F2D93 /* ViewController.h */,
@@ -101,9 +107,6 @@
 				3D4EFB7E1E99E5CF009A8429 /* Main.storyboard */,
 				3D4EFB7D1E99E5CF009A8429 /* LaunchScreen.storyboard */,
 				3D3CEF8E1E90ACDC002F2D93 /* Supporting Files */,
-				3DC8F85E1E9A487500FEE5A8 /* CustomTitleView.h */,
-				3DC8F85F1E9A487500FEE5A8 /* CustomTitleView.m */,
-				3DC8F8611E9A487E00FEE5A8 /* CustomTitleView.xib */,
 			);
 			path = JLTableSheetDemo;
 			sourceTree = "<group>";
@@ -153,6 +156,22 @@
 				2257F51FA30F13CB4D993D24 /* Pods-JLTableSheetDemo.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		EF53C1BE1E9B344100C76A82 /* Custom */ = {
+			isa = PBXGroup;
+			children = (
+				EF53C1BF1E9B344100C76A82 /* CustomHeaderView.h */,
+				EF53C1C01E9B344100C76A82 /* CustomHeaderView.m */,
+				EF53C1C11E9B344100C76A82 /* CustomHeaderView.xib */,
+				EF53C1C21E9B344100C76A82 /* CustomSheetCell.h */,
+				EF53C1C31E9B344100C76A82 /* CustomSheetCell.m */,
+				EF53C1C41E9B344100C76A82 /* CustomSheetCell.xib */,
+				EF53C1C51E9B344100C76A82 /* CustomTitleView.h */,
+				EF53C1C61E9B344100C76A82 /* CustomTitleView.m */,
+				EF53C1C71E9B344100C76A82 /* CustomTitleView.xib */,
+			);
+			path = Custom;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -217,11 +236,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF53C1CB1E9B344100C76A82 /* CustomSheetCell.xib in Resources */,
+				EF53C1C91E9B344100C76A82 /* CustomHeaderView.xib in Resources */,
 				3D4EFB7F1E99E5CF009A8429 /* LaunchScreen.storyboard in Resources */,
-				EFD7D02F1E979F72004FFE8C /* CustomSheetCell.xib in Resources */,
+				EF53C2151E9B406000C76A82 /* JLTableSheet.podspec in Resources */,
 				3D3CEF9B1E90ACDC002F2D93 /* Assets.xcassets in Resources */,
+				EF53C1CD1E9B344100C76A82 /* CustomTitleView.xib in Resources */,
 				3D4EFB801E99E5CF009A8429 /* Main.storyboard in Resources */,
-				3DC8F8621E9A487E00FEE5A8 /* CustomTitleView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,12 +301,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF53C1CC1E9B344100C76A82 /* CustomTitleView.m in Sources */,
+				EF53C1CA1E9B344100C76A82 /* CustomSheetCell.m in Sources */,
 				3D3CEF961E90ACDC002F2D93 /* ViewController.m in Sources */,
-				EFD7D02D1E979D8D004FFE8C /* CustomSheetCell.m in Sources */,
 				3D97B8F91E9A333600EF8C7E /* JLTableSheetViewController.m in Sources */,
 				3D97B8F71E9A333600EF8C7E /* JLTableSheetCell.m in Sources */,
-				3DC8F8601E9A487500FEE5A8 /* CustomTitleView.m in Sources */,
 				3D3CEF931E90ACDC002F2D93 /* AppDelegate.m in Sources */,
+				EF53C1C81E9B344100C76A82 /* CustomHeaderView.m in Sources */,
 				3D97B8F81E9A333600EF8C7E /* JLTableSheetItem.m in Sources */,
 				3D3CEF901E90ACDC002F2D93 /* main.m in Sources */,
 			);

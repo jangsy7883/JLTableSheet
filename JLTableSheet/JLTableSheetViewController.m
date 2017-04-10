@@ -11,17 +11,16 @@
 
 @interface JLTableSheetViewController ()<UITableViewDataSource,UITableViewDelegate,STPopupControllerTransitioning,UIGestureRecognizerDelegate>
 
-@property (nonatomic, assign) CGFloat minSheetHeight;
-
 @property (nonatomic, strong) UIView *maskView;
 @property (nonatomic, strong) UIView *containerView;
 @property (nonatomic, strong) UIView * backgroundView;
-
 @property (nonatomic, strong) UITableView *tableView;
-
 @property (nonatomic, strong) UIView *headerContainerView;
 @property (nonatomic, strong) UINavigationBar *navigationBar;
+
+@property (nonatomic, assign) CGFloat minSheetHeight;
 @property (nonatomic, assign) BOOL isDismiss;
+
 @end
 
 @implementation JLTableSheetViewController
@@ -175,14 +174,6 @@
                                            CGRectGetMinY(self.headerContainerView.frame)+statusBarHeight,
                                            CGRectGetWidth(self.view.bounds),
                                            CGRectGetHeight(self.view.bounds)-CGRectGetMinY(self.navigationBar.frame));
-}
-
-- (void)registerNib:(nullable UINib *)nib {
-    [self.tableView registerNib:nib forCellReuseIdentifier:@"Cell"];
-}
-
-- (void)registerClass:(nullable Class)cellClass {
-    [self.tableView registerClass:cellClass forCellReuseIdentifier:@"Cell"];
 }
 
 #pragma mark -
@@ -419,6 +410,7 @@
     if (_navigationBarHidden != navigationBarHidden) {
         _navigationBarHidden = navigationBarHidden;
         
+        self.navigationBar.hidden = _navigationBarHidden;
         if ([self isViewLoaded]) {
             [self layoutHeaderContainerView];
         }
@@ -486,11 +478,6 @@
     }
     return [NSArray arrayWithArray:selectedItems];
 }
-
-//- (UINavigationItem *)navigationItem {
-//    NSLog(@"%@",self.navigationBar.topItem);
-//    return self.navigationBar.topItem;
-//}
 
 @end
 

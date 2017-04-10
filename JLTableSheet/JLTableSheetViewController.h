@@ -23,7 +23,6 @@
 @property (nonatomic, strong, nullable) UIView *headerView;
 @property (nonatomic, readonly, nonnull) UIView * backgroundView;
 @property (nonatomic, readonly, nonnull) UINavigationBar *navigationBar;
-//@property (nonatomic, readonly, nonnull) UINavigationItem *navigationItem;
 
 //
 @property (nonatomic, assign, nullable) Class cellClass;
