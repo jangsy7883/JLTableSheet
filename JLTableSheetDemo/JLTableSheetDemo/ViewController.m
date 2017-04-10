@@ -10,11 +10,12 @@
 #import "JLTableSheetViewController.h"
 
 #import "CustomSheetCell.h"
-
 #import "CustomTitleView.h"
+#import "CustomHeaderView.h"
+
 @interface ViewController ()
 
-@property (nonatomic, strong) NSArray<NSString *> *fruits;
+@property (nonatomic, readonly) NSArray<JLTableSheetItem *> *items;
 @end
 
 @implementation ViewController
@@ -27,13 +28,8 @@
  * Multiple Selection Sheet
  */
 - (IBAction)pressedMultipleSelectionSheetButton:(id)sender{
-    NSMutableArray <JLTableSheetItem *> *items = [NSMutableArray array];
-    for (NSString *fruit in self.fruits) {
-        JLTableSheetItem *item = [JLTableSheetItem actionSheetItemTitle:fruit userInfo:nil];
-        [items addObject:item];
-    }
     
-    JLTableSheetViewController *tableSheetViewController = [[JLTableSheetViewController alloc] initWithItems:items];
+    JLTableSheetViewController *tableSheetViewController = [[JLTableSheetViewController alloc] initWithItems:self.items];
     tableSheetViewController.navigationBar.topItem.title = @"Choose Fruits";
     
     //
@@ -52,13 +48,8 @@
  * Single Selection Sheet
  */
 - (IBAction)pressedSingleSelectionSheetButton:(id)sender{
-    NSMutableArray <JLTableSheetItem *> *items = [NSMutableArray array];
-    for (NSString *fruit in self.fruits) {
-        JLTableSheetItem *item = [JLTableSheetItem actionSheetItemTitle:fruit userInfo:nil];
-        [items addObject:item];
-    }
-    
-    JLTableSheetViewController *tableSheetViewController = [[JLTableSheetViewController alloc] initWithItems:items];
+
+    JLTableSheetViewController *tableSheetViewController = [[JLTableSheetViewController alloc] initWithItems:self.items];
     tableSheetViewController.navigationBar.topItem.title = @"Choose Fruits";
     
     //
@@ -66,7 +57,6 @@
 
     //Block
     tableSheetViewController.completion = ^(BOOL isCompleteAction, NSArray<JLTableSheetItem *> *items) {
-        NSLog(@"isCompleteAction : %@",isCompleteAction ? @"YES":@"NO");
         NSLog(@"%@",items);
     };
     
@@ -77,17 +67,12 @@
  * Custom NavigationBarItem Sheet
  */
 - (IBAction)pressedCustomNavigationBarItemSheetButton:(id)sender {
-    NSMutableArray <JLTableSheetItem *> *items = [NSMutableArray array];
-    for (NSString *fruit in self.fruits) {
-        JLTableSheetItem *item = [JLTableSheetItem actionSheetItemTitle:fruit userInfo:nil];
-        [items addObject:item];
-    }
-    
-    JLTableSheetViewController *tableSheetViewController = [[JLTableSheetViewController alloc] initWithItems:items];
+
+    JLTableSheetViewController *tableSheetViewController = [[JLTableSheetViewController alloc] initWithItems:self.items];
     tableSheetViewController.navigationBar.topItem.title = @"Choose Fruits";
+    tableSheetViewController.allowsMultipleSelection = YES;
     
     //
-    tableSheetViewController.allowsMultipleSelection = YES;
     tableSheetViewController.hidesCompleteButton = YES;
     tableSheetViewController.hidesCancelButton = YES;
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"Save"
@@ -104,7 +89,6 @@
         weakTableSheetViewController.navigationBar.topItem.rightBarButtonItem.enabled = items.count > 0;
     };
     tableSheetViewController.completion = ^(BOOL isCompleteAction, NSArray<JLTableSheetItem *> *items) {
-        NSLog(@"isCompleteAction : %@",isCompleteAction ? @"YES":@"NO");
         NSLog(@"%@",items);
     };
     
@@ -117,28 +101,20 @@
 }
 
 /*
- * Custom
+ * Custom navigation style
  */
 - (IBAction)pressedSheetButton:(id)sender {
     
-    //Item
-    NSMutableArray <JLTableSheetItem *> *items = [NSMutableArray array];
-    for (NSString *name in self.fruits) {
-        JLTableSheetItem *item = [JLTableSheetItem actionSheetItemTitle:name userInfo:nil];
-        [items addObject:item];
-    }
-    
     //CustomTitleView
-    
     CustomTitleView *titleView = [[NSBundle mainBundle] loadNibNamed:NSStringFromClass([CustomTitleView class]) owner:self options:nil].firstObject;
     titleView.titleLabel.text = @"Choose Fruits";
 
     CGRect rect = CGRectMake(0, 0, 0, 42);
     rect.size.width = [titleView systemLayoutSizeFittingSize:CGSizeMake(UILayoutFittingCompressedSize.width, rect.size.height)].width;
     titleView.frame = rect;
-
     
-    JLTableSheetViewController *tableSheetViewController = [[JLTableSheetViewController alloc] initWithItems:items];
+    //
+    JLTableSheetViewController *tableSheetViewController = [[JLTableSheetViewController alloc] initWithItems:self.items];
     tableSheetViewController.separatorInset = UIEdgeInsetsMake(0, 15, 0, 15);
     tableSheetViewController.allowsMultipleSelection = YES;
     tableSheetViewController.navigationBar.translucent = NO;
@@ -157,7 +133,34 @@
     
     //Block
     tableSheetViewController.completion = ^(BOOL isCompleteAction, NSArray<JLTableSheetItem *> *items) {
-        NSLog(@"isCompleteAction : %@",isCompleteAction ? @"YES":@"NO");
+        NSLog(@"%@",items);
+    };
+    
+    //
+    [tableSheetViewController presentInViewController:self];
+}
+
+/*
+ * Custom headerView Sheet
+ */
+- (IBAction)pressedCustomHeaderSheetButton:(id)sender {
+  
+    //CustomHeaderView
+    CustomHeaderView *headerView = [[NSBundle mainBundle] loadNibNamed:NSStringFromClass([CustomHeaderView class]) owner:self options:nil].firstObject;
+    headerView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 50);
+    headerView.titleLabl.text = @"Choose Fruits";
+    [headerView.closeButton addTarget:self action:@selector(pressedSaveButton:) forControlEvents:UIControlEventTouchUpInside];
+
+    //
+    JLTableSheetViewController *tableSheetViewController = [[JLTableSheetViewController alloc] initWithItems:self.items];
+    tableSheetViewController.separatorInset = UIEdgeInsetsMake(0, 15, 0, 15);
+    tableSheetViewController.allowsMultipleSelection = YES;
+    tableSheetViewController.navigationBarHidden = YES;
+    tableSheetViewController.headerView = headerView;
+    tableSheetViewController.cellClass = [CustomSheetCell class];
+    
+    //Block
+    tableSheetViewController.completion = ^(BOOL isCompleteAction, NSArray<JLTableSheetItem *> *items) {
         NSLog(@"%@",items);
     };
     
@@ -167,27 +170,32 @@
 
 #pragma mark - getters 
 
-- (NSArray <NSString *> *)fruits {
-    if (!_fruits) {
-        _fruits = @[
-                    
-                    @"Apple",
-                    @"Grape",
-                    @"Watermelon",
-                    @"Orange",
-                    @"Strawberry",
-                    @"Pineapple",
-                    @"Mango",
-                    @"Peach",
-                    @"Kiwi",
-                    @"Apple",
-                    @"Blueberries",
-                    @"Plum",
-                    @"Banana",
-                    @"Chestnut",
-                    @"Cherry",
-                    ];
+- (NSArray <JLTableSheetItem *> *)items {
+    NSArray* fruitNames = @[
+                            @"Apple",
+                            @"Grape",
+                            @"Watermelon",
+                            @"Orange",
+                            @"Strawberry",
+                            @"Pineapple",
+                            @"Mango",
+                            @"Peach",
+                            @"Kiwi",
+                            @"Apple",
+                            @"Blueberries",
+                            @"Plum",
+                            @"Banana",
+                            @"Chestnut",
+                            @"Cherry",
+                            ];
+    
+    NSMutableArray <JLTableSheetItem *> *items = [NSMutableArray array];
+    for (NSString *fruitName in fruitNames) {
+        JLTableSheetItem *item = [JLTableSheetItem actionSheetItemTitle:fruitName userInfo:nil];
+        [items addObject:item];
     }
-    return _fruits;
+    
+    return [NSArray arrayWithArray:items];
 }
+
 @end

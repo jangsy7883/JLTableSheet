@@ -21,7 +21,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kG4-g5-j7i">
-                    <rect key="frame" x="180" y="41.5" width="15" height="0.5"/>
+                    <rect key="frame" x="180" y="41.5" width="15" height="1"/>
                     <color key="backgroundColor" red="0.086274509799999996" green="0.38431372549999998" blue="0.73333333329999995" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="Vbd-1p-YCF"/>
