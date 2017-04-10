@@ -25,10 +25,21 @@ for (NSString *fruitName in fruitNames) {
 }
 
 JLTableSheetViewController *tableSheetViewController = [[JLTableSheetViewController alloc] initWithItems:items];
+tableSheetViewController.navigationBar.topItem.title = @"Choose Fruits";
 [tableSheetViewController presentInViewController:self];
 ```
+**block handler**
+```objc
+tableSheetViewController.changedSelectedItems = ^(NSArray<JLTableSheetItem *> *items) {
+    NSLog(@"changed selected items");
+};
+tableSheetViewController.completion = ^(BOOL isCompleteAction, NSArray<JLTableSheetItem *> *items) {
+    NSLog(@"completion");
+    NSLog(@"%@",items);
+};
+```
 
-**dismiss view controllers**
+**dismiss view controller**
 ```objc
 [self.tableSheetViewController dismiss];
 ```
@@ -41,6 +52,25 @@ tableSheetViewController.allowsMultipleSelection = YES;
 **Single selection sheet**
 ```objc
 tableSheetViewController.allowsMultipleSelection = NO;
+```
+
+**Custom navigation item**
+```objc
+UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"Save"
+                                                         style:UIBarButtonItemStyleDone
+                                                        target:self
+                                                        action:@selector(pressedSaveButton:)];
+item.enabled = NO;
+
+tableSheetViewController.hidesCompleteButton = YES;
+tableSheetViewController.hidesCancelButton = YES;
+tableSheetViewController.navigationBar.topItem.rightBarButtonItem = item;
+
+//Block
+__block __weak typeof(JLTableSheetViewController) *weakTableSheetViewController = tableSheetViewController;
+tableSheetViewController.changedSelectedItems = ^(NSArray<JLTableSheetItem *> *items) {
+    weakTableSheetViewController.navigationBar.topItem.rightBarButtonItem.enabled = items.count > 0;
+};
 ```
 
 **NavigationBar Hidden and custom headerView**
