@@ -21,6 +21,8 @@
 @property (nonatomic, assign) CGFloat minSheetHeight;
 @property (nonatomic, assign) BOOL isDismiss;
 
+@property (nonatomic, assign) CGFloat preferredNavigationBarHeight;
+
 @property (nonatomic, readonly) CGSize contentSize;
 @end
 
@@ -32,12 +34,9 @@
     self = [super init];
     if (self) {
         CGSize size = [UIScreen mainScreen].bounds.size;
-        
-//        self.contentSizeInPopup = [UIScreen mainScreen].bounds.size;
+
         self.contentSizeInPopup = CGSizeMake(MIN(size.width, size.height),
                                              MAX(size.width, size.height));
-
-        
         self.landscapeContentSizeInPopup = CGSizeMake(MAX(size.width, size.height),
                                                       MIN(size.width, size.height));
         _isDismiss = NO;
@@ -65,6 +64,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    //
+    UINavigationController *navigationController = [UINavigationController new];
+    _preferredNavigationBarHeight = CGRectGetHeight(navigationController.navigationBar.bounds);
+    _minSheetHeight = MIN(_rowHegiht*_minVisibleRow, _rowHegiht * self.items.count);
+
     self.popupController.transitioning = self;
     self.popupController.containerView.backgroundColor = [UIColor clearColor];
 
@@ -72,9 +76,6 @@
     recognizer.delegate = self;
     [self.view addGestureRecognizer:recognizer];
     self.view.backgroundColor = [UIColor clearColor];
-    
-    //
-    _minSheetHeight = MIN(_rowHegiht*_minVisibleRow, _rowHegiht * self.items.count);
     
     //
     self.backgroundView = [[UIView alloc] init];
@@ -91,7 +92,8 @@
     if (self.cellClass) {
         if ([self.cellClass respondsToSelector:@selector(nibForSheetCell)]) {
             [self.tableView registerNib:[self.cellClass performSelector:@selector(nibForSheetCell)] forCellReuseIdentifier:@"Cell"];
-        }else{
+        }
+        else{
             [self.tableView registerClass:self.cellClass forCellReuseIdentifier:@"Cell"];
         }
     }
@@ -104,6 +106,7 @@
     
     //headerContentView
     self.headerContainerView = [[UIView alloc] init];
+    self.headerContainerView.clipsToBounds = YES;
     self.headerContainerView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.headerContainerView];
     
@@ -151,7 +154,7 @@
 
 - (void)layoutHeaderContainerView {
     CGFloat statusBarHeight = CGRectGetHeight([UIApplication sharedApplication].statusBarFrame);
-    CGFloat navigationBarHeight = _navigationBarHidden ? 0 : _navigationHegiht;
+    CGFloat navigationBarHeight = _navigationBarHidden ? 0 : _preferredNavigationBarHeight;
     CGFloat headerContentHeight = (navigationBarHeight+statusBarHeight)+CGRectGetHeight(self.headerView.frame);
     
     CGFloat y = MAX(0, -(self.tableView.contentOffset.y + headerContentHeight));
@@ -180,7 +183,7 @@
                                          CGRectGetWidth(self.containerView.bounds),
                                          CGRectGetHeight(self.containerView.bounds));
     }
-    else{
+    else {
         self.maskView.frame = self.containerView.bounds;
     }
     
@@ -266,6 +269,13 @@
     }];
 }
 
+#pragma mark - UIContentContainer
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id <UIViewControllerTransitionCoordinator>)coordinator {
+    UINavigationController *navigationController = [UINavigationController new];
+    _preferredNavigationBarHeight = CGRectGetHeight(navigationController.navigationBar.bounds);
+}
+
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -316,8 +326,9 @@
     [self layoutHeaderContainerView];
     
     CGFloat offset = scrollView.contentInset.top + scrollView.contentOffset.y;
-    
-    if (offset < -(_minSheetHeight*0.35) && !_isDismiss) {
+    CGFloat height = (CGRectGetHeight(self.headerContainerView.frame)+_minSheetHeight)*0.2;
+
+    if (offset < -height && !_isDismiss) {
         _isDismiss = YES;
         [self pressedCancelButton:nil];
     }
@@ -459,8 +470,6 @@
 - (UINavigationBar *)navigationBar {
     if (!_navigationBar) {
         _navigationBar = [[UINavigationBar alloc] init];
-        _navigationBar.clipsToBounds = YES;
-        
         UINavigationItem *item = [[UINavigationItem alloc] init];
         _navigationBar.items = @[item];
     }

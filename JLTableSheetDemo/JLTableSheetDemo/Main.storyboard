@@ -29,8 +29,8 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ic5-5V-1U2">
-                                <rect key="frame" x="95" y="190" width="184" height="30"/>
-                                <state key="normal" title="Custom Save Button Sheet"/>
+                                <rect key="frame" x="73.5" y="190" width="227" height="30"/>
+                                <state key="normal" title="Custom NavigationBarItem Sheet"/>
                                 <connections>
                                     <action selector="pressedCustomNavigationBarItemSheetButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cmu-oc-9Vm"/>
                                 </connections>
@@ -42,15 +42,8 @@
                                     <action selector="pressedMultipleSelectionSheetButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0VY-Mp-COh"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZB2-1z-bSG">
-                                <rect key="frame" x="88.5" y="250" width="197" height="30"/>
-                                <state key="normal" title="Custom NavigationBar Sheet"/>
-                                <connections>
-                                    <action selector="pressedSheetButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="a45-sW-afb"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PkF-SB-03Y">
-                                <rect key="frame" x="111" y="310" width="152" height="30"/>
+                                <rect key="frame" x="111" y="250" width="152" height="30"/>
                                 <state key="normal" title="Custom Header Sheet"/>
                                 <connections>
                                     <action selector="pressedCustomHeaderSheetButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="TcE-xV-3qr"/>
@@ -59,9 +52,7 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="PkF-SB-03Y" firstAttribute="top" secondItem="ZB2-1z-bSG" secondAttribute="bottom" constant="30" id="8e3-Ne-8tL"/>
-                            <constraint firstItem="ZB2-1z-bSG" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="97o-OL-aAQ"/>
-                            <constraint firstItem="ZB2-1z-bSG" firstAttribute="top" secondItem="Ic5-5V-1U2" secondAttribute="bottom" constant="30" id="MVv-hX-VG6"/>
+                            <constraint firstItem="PkF-SB-03Y" firstAttribute="top" secondItem="Ic5-5V-1U2" secondAttribute="bottom" constant="30" id="RwT-6m-1bg"/>
                             <constraint firstItem="PkF-SB-03Y" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="UIq-6J-bz1"/>
                             <constraint firstItem="IDb-vN-kRq" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="UVh-Pg-YYQ"/>
                             <constraint firstItem="ADp-tJ-VI0" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="50" id="a9E-g7-Jbz"/>

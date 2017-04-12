@@ -16,6 +16,7 @@
 @interface ViewController ()
 
 @property (nonatomic, readonly) NSArray<JLTableSheetItem *> *items;
+
 @end
 
 @implementation ViewController
@@ -99,50 +100,6 @@
     [tableSheetViewController presentInViewController:self];
 }
 
-- (IBAction)pressedSaveButton:(id)sender {
-    [self.tableSheetViewController dismiss];
-}
-
-/*
- * Custom navigation style
- */
-- (IBAction)pressedSheetButton:(id)sender {
-    
-    //CustomTitleView
-    CustomTitleView *titleView = [[NSBundle mainBundle] loadNibNamed:NSStringFromClass([CustomTitleView class]) owner:self options:nil].firstObject;
-    titleView.titleLabel.text = @"Choose Fruits";
-
-    CGRect rect = CGRectMake(0, 0, 0, 42);
-    rect.size.width = [titleView systemLayoutSizeFittingSize:CGSizeMake(UILayoutFittingCompressedSize.width, rect.size.height)].width;
-    titleView.frame = rect;
-    
-    //
-    JLTableSheetViewController *tableSheetViewController = [[JLTableSheetViewController alloc] initWithItems:self.items];
-    tableSheetViewController.separatorInset = UIEdgeInsetsMake(0, 15, 0, 15);
-    tableSheetViewController.allowsMultipleSelection = YES;
-    tableSheetViewController.navigationBar.translucent = NO;
-    tableSheetViewController.navigationBar.topItem.titleView = titleView;
-    tableSheetViewController.navigationHegiht = 50;
-    tableSheetViewController.cellClass = [CustomSheetCell class];
-    tableSheetViewController.hidesCompleteButton = YES;
-    tableSheetViewController.hidesCancelButton = YES;
-    
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"close"]
-                                                             style:UIBarButtonItemStyleDone
-                                                            target:self
-                                                            action:@selector(pressedSaveButton:)];
-    item.tintColor = [UIColor colorWithRed:0.84 green:0.84 blue:0.84 alpha:1.00];
-    tableSheetViewController.navigationBar.topItem.rightBarButtonItem = item;
-    
-    //Block
-    tableSheetViewController.completion = ^(BOOL isCompleteAction, NSArray<JLTableSheetItem *> *items) {
-        NSLog(@"%@",items);
-    };
-    
-    //
-    [tableSheetViewController presentInViewController:self];
-}
-
 /*
  * Custom headerView Sheet
  */
@@ -169,6 +126,12 @@
     
     //
     [tableSheetViewController presentInViewController:self];
+}
+
+#pragma mark - event
+
+- (IBAction)pressedSaveButton:(id)sender {
+    [self.tableSheetViewController dismiss];
 }
 
 #pragma mark - getters 
