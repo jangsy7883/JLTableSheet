@@ -10,7 +10,6 @@
 		17141E0782DDE25293DC6CB1 /* Pods_JLTableSheetDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 037A8763A2DBFD412AD2144F /* Pods_JLTableSheetDemo.framework */; };
 		3D3CEF901E90ACDC002F2D93 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3CEF8F1E90ACDC002F2D93 /* main.m */; };
 		3D3CEF931E90ACDC002F2D93 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3CEF921E90ACDC002F2D93 /* AppDelegate.m */; };
-		3D3CEF961E90ACDC002F2D93 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3CEF951E90ACDC002F2D93 /* ViewController.m */; };
 		3D3CEF9B1E90ACDC002F2D93 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D3CEF9A1E90ACDC002F2D93 /* Assets.xcassets */; };
 		3D4EFB7F1E99E5CF009A8429 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D4EFB7D1E99E5CF009A8429 /* LaunchScreen.storyboard */; };
 		3D4EFB801E99E5CF009A8429 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D4EFB7E1E99E5CF009A8429 /* Main.storyboard */; };
@@ -23,8 +22,8 @@
 		EF53C1CB1E9B344100C76A82 /* CustomSheetCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF53C1C41E9B344100C76A82 /* CustomSheetCell.xib */; };
 		EF53C1CC1E9B344100C76A82 /* CustomTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF53C1C61E9B344100C76A82 /* CustomTitleView.m */; };
 		EF53C1CD1E9B344100C76A82 /* CustomTitleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF53C1C71E9B344100C76A82 /* CustomTitleView.xib */; };
-		EF53C25D1E9B830800C76A82 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = EF53C25C1E9B830800C76A82 /* README.md */; };
 		EF53C25F1E9B831500C76A82 /* JLTableSheet.podspec in Resources */ = {isa = PBXBuildFile; fileRef = EF53C25E1E9B831500C76A82 /* JLTableSheet.podspec */; };
+		EFFE51BF1E9DCDD600A2DCCD /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFFE51BE1E9DCDD600A2DCCD /* MainViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,8 +36,6 @@
 		3D3CEF8F1E90ACDC002F2D93 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3D3CEF911E90ACDC002F2D93 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		3D3CEF921E90ACDC002F2D93 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		3D3CEF941E90ACDC002F2D93 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		3D3CEF951E90ACDC002F2D93 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		3D3CEF9A1E90ACDC002F2D93 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3D3CEF9F1E90ACDC002F2D93 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3D4EFB7D1E99E5CF009A8429 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -62,8 +59,9 @@
 		EF53C1C51E9B344100C76A82 /* CustomTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTitleView.h; sourceTree = "<group>"; };
 		EF53C1C61E9B344100C76A82 /* CustomTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTitleView.m; sourceTree = "<group>"; };
 		EF53C1C71E9B344100C76A82 /* CustomTitleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomTitleView.xib; sourceTree = "<group>"; };
-		EF53C25C1E9B830800C76A82 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		EF53C25E1E9B831500C76A82 /* JLTableSheet.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = JLTableSheet.podspec; path = ../JLTableSheet.podspec; sourceTree = "<group>"; };
+		EFFE51BD1E9DCDD600A2DCCD /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		EFFE51BE1E9DCDD600A2DCCD /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,7 +79,6 @@
 		3D3CEF821E90ACDC002F2D93 = {
 			isa = PBXGroup;
 			children = (
-				EF53C25C1E9B830800C76A82 /* README.md */,
 				EF53C25E1E9B831500C76A82 /* JLTableSheet.podspec */,
 				3D97B8F01E9A333600EF8C7E /* JLTableSheet */,
 				3D3CEF8D1E90ACDC002F2D93 /* JLTableSheetDemo */,
@@ -105,8 +102,8 @@
 				EF53C1BE1E9B344100C76A82 /* Custom */,
 				3D3CEF911E90ACDC002F2D93 /* AppDelegate.h */,
 				3D3CEF921E90ACDC002F2D93 /* AppDelegate.m */,
-				3D3CEF941E90ACDC002F2D93 /* ViewController.h */,
-				3D3CEF951E90ACDC002F2D93 /* ViewController.m */,
+				EFFE51BD1E9DCDD600A2DCCD /* MainViewController.h */,
+				EFFE51BE1E9DCDD600A2DCCD /* MainViewController.m */,
 				3D4EFB7E1E99E5CF009A8429 /* Main.storyboard */,
 				3D4EFB7D1E99E5CF009A8429 /* LaunchScreen.storyboard */,
 				3D3CEF8E1E90ACDC002F2D93 /* Supporting Files */,
@@ -304,10 +301,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EFFE51BF1E9DCDD600A2DCCD /* MainViewController.m in Sources */,
 				EF53C1CC1E9B344100C76A82 /* CustomTitleView.m in Sources */,
 				EF53C1CA1E9B344100C76A82 /* CustomSheetCell.m in Sources */,
-				EF53C25D1E9B830800C76A82 /* README.md in Sources */,
-				3D3CEF961E90ACDC002F2D93 /* ViewController.m in Sources */,
 				3D97B8F91E9A333600EF8C7E /* JLTableSheetViewController.m in Sources */,
 				3D97B8F71E9A333600EF8C7E /* JLTableSheetCell.m in Sources */,
 				3D3CEF931E90ACDC002F2D93 /* AppDelegate.m in Sources */,

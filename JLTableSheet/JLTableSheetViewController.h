@@ -48,6 +48,6 @@
 
 @interface UIViewController (JLTableSheetViewController)
 
-- (nonnull JLTableSheetViewController *)tableSheetViewController;
+- (nullable JLTableSheetViewController *)tableSheetViewController;
 
 @end

@@ -333,7 +333,20 @@
         [self pressedCancelButton:nil];
     }
 }
-
+/*
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
+    if (scrollView.contentInset.top/2 > MAX(0, -scrollView.contentOffset.y)) {
+        if (CGRectGetMinY(self.headerContainerView.frame) != 0) {
+            [scrollView setContentOffset:CGPointMake(scrollView.contentOffset.x, -CGRectGetHeight(self.headerContainerView.frame)) animated:YES];
+        }
+    }
+    else{
+        if (scrollView.contentOffset.y != -scrollView.contentInset.top) {
+            [scrollView setContentOffset:CGPointMake(scrollView.contentOffset.x, -scrollView.contentInset.top) animated:YES];
+        }
+    }
+}
+*/
 #pragma mark - UIGestureRecognizerDelegate
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
@@ -503,7 +516,7 @@
 
 @implementation UIViewController (JLTableSheetViewController)
 
-- (JLTableSheetViewController *)tableSheetViewController {
+- (nullable JLTableSheetViewController *)tableSheetViewController {
     for (JLTableSheetViewController *viewController in self.presentedViewController.childViewControllers) {
         if ([viewController isKindOfClass:[JLTableSheetViewController class]]) {
             return (JLTableSheetViewController*)viewController;
