@@ -16,6 +16,6 @@
 @property (nonatomic, getter=isEnabled) BOOL enabled;
 @property (nonatomic, getter=isSelected) BOOL selected;
 
-+ (JLTableSheetItem *)actionSheetItemTitle:(NSString *)title userInfo:(NSDictionary *)userInfo;
++ (JLTableSheetItem *)sheetItemTitle:(NSString *)title userInfo:(NSDictionary *)userInfo;
 
 @end

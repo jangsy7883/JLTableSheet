@@ -2,14 +2,16 @@
 [![Version](https://img.shields.io/cocoapods/v/JLTableSheet.svg?style=flat)](http://cocoadocs.org/docsets/JLTableSheet)
 [![License](https://img.shields.io/cocoapods/l/JLTableSheet.svg?style=flat)](http://cocoadocs.org/docsets/JLTableSheet)
 [![Platform](https://img.shields.io/cocoapods/p/JLTableSheet.svg?style=flat)](http://cocoadocs.org/docsets/JLTableSheet)
+[![Support](https://img.shields.io/badge/support-iOS%208+-blue.svg?style=flat)](https://www.apple.com/nl/ios/)
 
-## Get Started
+## Install
 **CocoaPods**
 ```ruby
 platform :ios, '8.0'
 pod 'JLTableSheet'
 ```
 
+## Usage
 **Import header file**
 ```objc
 #import <JLTableSheet/JLTableSheetViewController.h>
@@ -28,6 +30,7 @@ JLTableSheetViewController *tableSheetViewController = [[JLTableSheetViewControl
 tableSheetViewController.navigationBar.topItem.title = @"Choose Fruits";
 [tableSheetViewController presentInViewController:self];
 ```
+
 **block handler**
 ```objc
 tableSheetViewController.changedSelectedItems = ^(NSArray<JLTableSheetItem *> *items) {
@@ -44,17 +47,12 @@ tableSheetViewController.completion = ^(BOOL isCompleteAction, NSArray<JLTableSh
 [self.tableSheetViewController dismiss];
 ```
 
-**Multiple selection sheet**
+**allows multiple selection**
 ```objc
-tableSheetViewController.allowsMultipleSelection = YES;
+@property (nonatomic, assign, getter=isAllowsMultipleSelection) BOOL allowsMultipleSelection;
 ```
 
-**Single selection sheet**
-```objc
-tableSheetViewController.allowsMultipleSelection = NO;
-```
-
-**Custom navigation item**
+**custom navigation item**
 ```objc
 UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"Save"
                                                          style:UIBarButtonItemStyleDone
@@ -73,13 +71,17 @@ tableSheetViewController.changedSelectedItems = ^(NSArray<JLTableSheetItem *> *i
 };
 ```
 
-**NavigationBar Hidden and custom headerView**
+**navigationBar Hidden and custom headerView**
 ```objc
 UIImageView *headerView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"headerImage"]];
 
 tableSheetViewController.navigationBarHidden = YES;
 tableSheetViewController.headerView = headerView; 
 ```
+
+## Inspiration
+
+1.[STPopup](https://github.com/kevin0571/STPopup)
 
 ## Licence
 The MIT License (MIT)
