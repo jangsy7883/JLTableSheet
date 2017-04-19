@@ -19,6 +19,7 @@
 @property (nonatomic, strong) UINavigationBar *navigationBar;
 
 @property (nonatomic, assign) CGFloat minSheetHeight;
+@property (nonatomic, assign) CGFloat maxSheetHeight;
 @property (nonatomic, assign) BOOL isDismiss;
 
 @property (nonatomic, assign) CGFloat preferredNavigationBarHeight;
@@ -46,7 +47,7 @@
         _hidesCancelButton = NO;
         _minVisibleRow = 4.5;
         _navigationBarHidden = NO;
-        _navigationHegiht = 44;
+        _maxVisibleRow = 0;
     }
     return self;
 }
@@ -67,8 +68,8 @@
     //
     UINavigationController *navigationController = [UINavigationController new];
     _preferredNavigationBarHeight = CGRectGetHeight(navigationController.navigationBar.bounds);
-    _minSheetHeight = MIN(_rowHegiht*_minVisibleRow, _rowHegiht * self.items.count);
-
+    [self updateConfigValues];
+    
     self.popupController.transitioning = self;
     self.popupController.containerView.backgroundColor = [UIColor clearColor];
 
@@ -158,10 +159,13 @@
     CGFloat headerContentHeight = (navigationBarHeight+statusBarHeight)+CGRectGetHeight(self.headerView.frame);
     
     CGFloat y = MAX(0, -(self.tableView.contentOffset.y + headerContentHeight));
-    CGFloat navigationBarY = MAX(0, MIN(statusBarHeight, y));
+    if (_maxSheetHeight > 0) {
+        y = MAX(y, CGRectGetHeight(self.view.bounds) - (_maxSheetHeight + headerContentHeight));
+    }
+    CGFloat navigationBarY = _navigationBarHidden ? statusBarHeight : MAX(0, MIN(statusBarHeight, y));
 
     self.headerContainerView.frame = CGRectMake(CGRectGetMinX(self.containerView.frame),
-                                                y ,
+                                                y,
                                                 CGRectGetWidth(self.containerView.bounds),
                                                 headerContentHeight);
     
@@ -176,16 +180,11 @@
                                            CGRectGetWidth(self.headerContainerView.bounds),
                                            CGRectGetHeight(self.headerView.frame));
     }
-    
-    if (self.navigationBar.hidden) {
-        self.maskView.frame = CGRectMake(0,
-                                         CGRectGetMaxY(self.navigationBar.frame),
-                                         CGRectGetWidth(self.containerView.bounds),
-                                         CGRectGetHeight(self.containerView.bounds));
-    }
-    else {
-        self.maskView.frame = self.containerView.bounds;
-    }
+
+    self.maskView.frame = CGRectMake(0,
+                                     CGRectGetMinY(self.headerContainerView.frame)+navigationBarY,
+                                     CGRectGetWidth(self.containerView.bounds),
+                                     CGRectGetHeight(self.containerView.bounds));
     
     self.backgroundView.frame = CGRectMake(CGRectGetMinX(self.containerView.frame),
                                            CGRectGetMinY(self.headerContainerView.frame)+statusBarHeight,
@@ -224,9 +223,7 @@
 #pragma mark - reload
 
 - (void)reloadBarButtonItems {
-    
     if (!_hidesCompleteButton && _allowsMultipleSelection) {
-
         UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                                               target:self
                                                                               action:@selector(pressedCompleteButton:)];
@@ -239,6 +236,13 @@
                                                                                               target:self
                                                                                               action:@selector(pressedCancelButton:)];
     }
+}
+
+#pragma mark - update
+
+- (void)updateConfigValues {
+    _maxSheetHeight = _rowHegiht*_maxVisibleRow;;
+    _minSheetHeight = MIN(_rowHegiht*_minVisibleRow, _rowHegiht * self.items.count);
 }
 
 #pragma mark - EVNET
@@ -333,20 +337,7 @@
         [self pressedCancelButton:nil];
     }
 }
-/*
-- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
-    if (scrollView.contentInset.top/2 > MAX(0, -scrollView.contentOffset.y)) {
-        if (CGRectGetMinY(self.headerContainerView.frame) != 0) {
-            [scrollView setContentOffset:CGPointMake(scrollView.contentOffset.x, -CGRectGetHeight(self.headerContainerView.frame)) animated:YES];
-        }
-    }
-    else{
-        if (scrollView.contentOffset.y != -scrollView.contentInset.top) {
-            [scrollView setContentOffset:CGPointMake(scrollView.contentOffset.x, -scrollView.contentInset.top) animated:YES];
-        }
-    }
-}
-*/
+
 #pragma mark - UIGestureRecognizerDelegate
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
@@ -429,11 +420,36 @@
     }
 }
 
+- (void)setRowHegiht:(CGFloat)rowHegiht {
+    if (_rowHegiht != rowHegiht) {
+        _rowHegiht = rowHegiht;
+        
+        _maxSheetHeight = _rowHegiht*_maxVisibleRow;;
+        _minSheetHeight = MIN(_rowHegiht*_minVisibleRow, _rowHegiht * self.items.count);
+        
+        if ([self isViewLoaded]) {
+            [self layoutHeaderContainerView];
+        }
+    }
+}
+
+- (void)setMaxVisibleRow:(CGFloat)maxVisibleRow {
+    if (_maxVisibleRow != maxVisibleRow) {
+        _maxVisibleRow = maxVisibleRow;
+        
+        [self updateConfigValues];
+        
+        if ([self isViewLoaded]) {
+            [self layoutHeaderContainerView];
+        }
+    }
+}
+
 - (void)setMinVisibleRow:(CGFloat)minVisibleRow {
     if (_minVisibleRow != minVisibleRow) {
         _minVisibleRow = minVisibleRow;
         
-        _minSheetHeight = MIN(_rowHegiht*_minVisibleRow, _rowHegiht * self.items.count);
+        [self updateConfigValues];
         
         if ([self isViewLoaded]) {
             [self layoutHeaderContainerView];

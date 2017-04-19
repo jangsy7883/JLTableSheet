@@ -19,7 +19,7 @@
     return self;
 }
 
-+ (JLTableSheetItem *)actionSheetItemTitle:(NSString *)title userInfo:(NSDictionary *)userInfo {
++ (JLTableSheetItem *)sheetItemTitle:(NSString *)title userInfo:(NSDictionary *)userInfo {
 
     JLTableSheetItem *item = [[JLTableSheetItem alloc] init];
     item.title = title;

@@ -36,7 +36,7 @@
     
     JLTableSheetViewController *tableSheetViewController = [[JLTableSheetViewController alloc] initWithItems:self.sheetItems];
     tableSheetViewController.navigationBar.topItem.title = @"Choose Fruits";
-    
+    tableSheetViewController.maxVisibleRow = 4.5;
     //
     tableSheetViewController.allowsMultipleSelection = YES;
     
@@ -95,9 +95,9 @@
         weakTableSheetViewController.navigationBar.topItem.rightBarButtonItem.enabled = items.count > 0;
         NSLog(@"changed selected items");
     };
-    tableSheetViewController.completion = ^(BOOL isCompleteAction, NSArray<JLTableSheetItem *> *items) {
+    tableSheetViewController.completion = ^(BOOL isCompleteAction, NSArray<JLTableSheetItem *> *selectedItems) {
         NSLog(@"completion");
-        NSLog(@"%@",items);
+        NSLog(@"%@",selectedItems);
     };
     
     //
@@ -124,8 +124,8 @@
     tableSheetViewController.cellClass = [CustomSheetCell class];
     
     //Block
-    tableSheetViewController.completion = ^(BOOL isCompleteAction, NSArray<JLTableSheetItem *> *items) {
-        NSLog(@"%@",items);
+    tableSheetViewController.completion = ^(BOOL isCompleteAction, NSArray<JLTableSheetItem *> *selectedItems) {
+        NSLog(@"%@",selectedItems);
     };
     
     //
@@ -135,7 +135,7 @@
 #pragma mark - event
 
 - (IBAction)pressedSaveButton:(id)sender {
-    [self.tableSheetViewController dismiss];
+    [self.tableSheetViewController dismissWithCompletion:nil];
 }
 
 #pragma mark - Table view data source
@@ -217,7 +217,7 @@
     
     NSMutableArray <JLTableSheetItem *> *items = [NSMutableArray array];
     for (NSString *fruitName in fruitNames) {
-        JLTableSheetItem *item = [JLTableSheetItem actionSheetItemTitle:fruitName userInfo:nil];
+        JLTableSheetItem *item = [JLTableSheetItem sheetItemTitle:fruitName userInfo:nil];
         [items addObject:item];
     }
     
