@@ -19,7 +19,10 @@
 @property (nonatomic, strong) UINavigationBar *navigationBar;
 
 @property (nonatomic, assign) CGFloat minSheetHeight;
+@property (nonatomic, assign) CGFloat maxSheetHeight;
 @property (nonatomic, assign) BOOL isDismiss;
+
+@property (nonatomic, assign) CGFloat preferredNavigationBarHeight;
 
 @property (nonatomic, readonly) CGSize contentSize;
 @end
@@ -32,12 +35,9 @@
     self = [super init];
     if (self) {
         CGSize size = [UIScreen mainScreen].bounds.size;
-        
-//        self.contentSizeInPopup = [UIScreen mainScreen].bounds.size;
+
         self.contentSizeInPopup = CGSizeMake(MIN(size.width, size.height),
                                              MAX(size.width, size.height));
-
-        
         self.landscapeContentSizeInPopup = CGSizeMake(MAX(size.width, size.height),
                                                       MIN(size.width, size.height));
         _isDismiss = NO;
@@ -47,7 +47,7 @@
         _hidesCancelButton = NO;
         _minVisibleRow = 4.5;
         _navigationBarHidden = NO;
-        _navigationHegiht = 44;
+        _maxVisibleRow = 0;
     }
     return self;
 }
@@ -65,6 +65,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    //
+    UINavigationController *navigationController = [UINavigationController new];
+    _preferredNavigationBarHeight = CGRectGetHeight(navigationController.navigationBar.bounds);
+    [self updateConfigValues];
+    
     self.popupController.transitioning = self;
     self.popupController.containerView.backgroundColor = [UIColor clearColor];
 
@@ -72,9 +77,6 @@
     recognizer.delegate = self;
     [self.view addGestureRecognizer:recognizer];
     self.view.backgroundColor = [UIColor clearColor];
-    
-    //
-    _minSheetHeight = MIN(_rowHegiht*_minVisibleRow, _rowHegiht * self.items.count);
     
     //
     self.backgroundView = [[UIView alloc] init];
@@ -91,7 +93,8 @@
     if (self.cellClass) {
         if ([self.cellClass respondsToSelector:@selector(nibForSheetCell)]) {
             [self.tableView registerNib:[self.cellClass performSelector:@selector(nibForSheetCell)] forCellReuseIdentifier:@"Cell"];
-        }else{
+        }
+        else{
             [self.tableView registerClass:self.cellClass forCellReuseIdentifier:@"Cell"];
         }
     }
@@ -104,6 +107,7 @@
     
     //headerContentView
     self.headerContainerView = [[UIView alloc] init];
+    self.headerContainerView.clipsToBounds = YES;
     self.headerContainerView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.headerContainerView];
     
@@ -151,14 +155,17 @@
 
 - (void)layoutHeaderContainerView {
     CGFloat statusBarHeight = CGRectGetHeight([UIApplication sharedApplication].statusBarFrame);
-    CGFloat navigationBarHeight = _navigationBarHidden ? 0 : _navigationHegiht;
+    CGFloat navigationBarHeight = _navigationBarHidden ? 0 : _preferredNavigationBarHeight;
     CGFloat headerContentHeight = (navigationBarHeight+statusBarHeight)+CGRectGetHeight(self.headerView.frame);
     
     CGFloat y = MAX(0, -(self.tableView.contentOffset.y + headerContentHeight));
-    CGFloat navigationBarY = MAX(0, MIN(statusBarHeight, y));
+    if (_maxSheetHeight > 0) {
+        y = MAX(y, CGRectGetHeight(self.view.bounds) - (_maxSheetHeight + headerContentHeight));
+    }
+    CGFloat navigationBarY = _navigationBarHidden ? statusBarHeight : MAX(0, MIN(statusBarHeight, y));
 
     self.headerContainerView.frame = CGRectMake(CGRectGetMinX(self.containerView.frame),
-                                                y ,
+                                                y,
                                                 CGRectGetWidth(self.containerView.bounds),
                                                 headerContentHeight);
     
@@ -173,16 +180,11 @@
                                            CGRectGetWidth(self.headerContainerView.bounds),
                                            CGRectGetHeight(self.headerView.frame));
     }
-    
-    if (self.navigationBar.hidden) {
-        self.maskView.frame = CGRectMake(0,
-                                         CGRectGetMaxY(self.navigationBar.frame),
-                                         CGRectGetWidth(self.containerView.bounds),
-                                         CGRectGetHeight(self.containerView.bounds));
-    }
-    else{
-        self.maskView.frame = self.containerView.bounds;
-    }
+
+    self.maskView.frame = CGRectMake(0,
+                                     CGRectGetMinY(self.headerContainerView.frame)+navigationBarY,
+                                     CGRectGetWidth(self.containerView.bounds),
+                                     CGRectGetHeight(self.containerView.bounds));
     
     self.backgroundView.frame = CGRectMake(CGRectGetMinX(self.containerView.frame),
                                            CGRectGetMinY(self.headerContainerView.frame)+statusBarHeight,
@@ -221,9 +223,7 @@
 #pragma mark - reload
 
 - (void)reloadBarButtonItems {
-    
     if (!_hidesCompleteButton && _allowsMultipleSelection) {
-
         UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                                               target:self
                                                                               action:@selector(pressedCompleteButton:)];
@@ -236,6 +236,13 @@
                                                                                               target:self
                                                                                               action:@selector(pressedCancelButton:)];
     }
+}
+
+#pragma mark - update
+
+- (void)updateConfigValues {
+    _maxSheetHeight = _rowHegiht*_maxVisibleRow;;
+    _minSheetHeight = MIN(_rowHegiht*_minVisibleRow, _rowHegiht * self.items.count);
 }
 
 #pragma mark - EVNET
@@ -264,6 +271,13 @@
         
         self.changedSelectedItems = nil;
     }];
+}
+
+#pragma mark - UIContentContainer
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id <UIViewControllerTransitionCoordinator>)coordinator {
+    UINavigationController *navigationController = [UINavigationController new];
+    _preferredNavigationBarHeight = CGRectGetHeight(navigationController.navigationBar.bounds);
 }
 
 #pragma mark - UITableViewDataSource
@@ -316,8 +330,9 @@
     [self layoutHeaderContainerView];
     
     CGFloat offset = scrollView.contentInset.top + scrollView.contentOffset.y;
-    
-    if (offset < -(_minSheetHeight*0.35) && !_isDismiss) {
+    CGFloat height = (CGRectGetHeight(self.headerContainerView.frame)+_minSheetHeight)*0.2;
+
+    if (offset < -height && !_isDismiss) {
         _isDismiss = YES;
         [self pressedCancelButton:nil];
     }
@@ -405,11 +420,36 @@
     }
 }
 
+- (void)setRowHegiht:(CGFloat)rowHegiht {
+    if (_rowHegiht != rowHegiht) {
+        _rowHegiht = rowHegiht;
+        
+        _maxSheetHeight = _rowHegiht*_maxVisibleRow;;
+        _minSheetHeight = MIN(_rowHegiht*_minVisibleRow, _rowHegiht * self.items.count);
+        
+        if ([self isViewLoaded]) {
+            [self layoutHeaderContainerView];
+        }
+    }
+}
+
+- (void)setMaxVisibleRow:(CGFloat)maxVisibleRow {
+    if (_maxVisibleRow != maxVisibleRow) {
+        _maxVisibleRow = maxVisibleRow;
+        
+        [self updateConfigValues];
+        
+        if ([self isViewLoaded]) {
+            [self layoutHeaderContainerView];
+        }
+    }
+}
+
 - (void)setMinVisibleRow:(CGFloat)minVisibleRow {
     if (_minVisibleRow != minVisibleRow) {
         _minVisibleRow = minVisibleRow;
         
-        _minSheetHeight = MIN(_rowHegiht*_minVisibleRow, _rowHegiht * self.items.count);
+        [self updateConfigValues];
         
         if ([self isViewLoaded]) {
             [self layoutHeaderContainerView];
@@ -459,8 +499,6 @@
 - (UINavigationBar *)navigationBar {
     if (!_navigationBar) {
         _navigationBar = [[UINavigationBar alloc] init];
-        _navigationBar.clipsToBounds = YES;
-        
         UINavigationItem *item = [[UINavigationItem alloc] init];
         _navigationBar.items = @[item];
     }
@@ -494,7 +532,7 @@
 
 @implementation UIViewController (JLTableSheetViewController)
 
-- (JLTableSheetViewController *)tableSheetViewController {
+- (nullable JLTableSheetViewController *)tableSheetViewController {
     for (JLTableSheetViewController *viewController in self.presentedViewController.childViewControllers) {
         if ([viewController isKindOfClass:[JLTableSheetViewController class]]) {
             return (JLTableSheetViewController*)viewController;
