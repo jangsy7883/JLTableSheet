@@ -19,12 +19,18 @@
     return self;
 }
 
-+ (JLTableSheetItem *)sheetItemTitle:(NSString *)title userInfo:(NSDictionary *)userInfo {
++ (JLTableSheetItem *)sheetItemWithIdentifier:(NSString *)identifier title:(NSString *)title {
+    return [self sheetItemWithIdentifier:identifier title:title userInfo:nil];
+}
 
++ (JLTableSheetItem *)sheetItemWithIdentifier:(NSString *)identifier title:(NSString *)title userInfo:(NSDictionary *)userInfo {    
+    if (identifier == nil && title == nil) return nil;
+    
     JLTableSheetItem *item = [[JLTableSheetItem alloc] init];
+    item.identifier = identifier;
     item.title = title;
     item.userInfo = userInfo;
-    
     return item;
 }
+
 @end

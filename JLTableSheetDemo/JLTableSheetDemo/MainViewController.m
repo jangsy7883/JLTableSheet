@@ -217,7 +217,7 @@
     
     NSMutableArray <JLTableSheetItem *> *items = [NSMutableArray array];
     for (NSString *fruitName in fruitNames) {
-        JLTableSheetItem *item = [JLTableSheetItem sheetItemTitle:fruitName userInfo:nil];
+        JLTableSheetItem *item = [JLTableSheetItem sheetItemWithIdentifier:nil title:fruitName];
         [items addObject:item];
     }
     
