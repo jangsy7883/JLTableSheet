@@ -54,6 +54,7 @@
 @property (nonatomic, assign) UIEdgeInsets separatorInset;
 
 @property (nonatomic, copy, nullable) void (^changedSelectedItems)(NSArray <JLTableSheetItem *> * _Nullable selectedItems);
+@property (nonatomic, copy, nullable) void (^willCompletion)(BOOL isCompleteAction,NSArray <JLTableSheetItem *> * _Nullable selectedItems);
 @property (nonatomic, copy, nullable) void (^completion)(BOOL isCompleteAction,NSArray <JLTableSheetItem *> * _Nullable selectedItems);
 
 /**
