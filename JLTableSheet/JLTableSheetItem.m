@@ -19,6 +19,10 @@
     return self;
 }
 
++ (nullable JLTableSheetItem *)sheetItemWithTitle:(nullable NSString *)title {
+    return [self sheetItemWithIdentifier:nil title:title userInfo:nil];
+}
+
 + (JLTableSheetItem *)sheetItemWithIdentifier:(NSString *)identifier title:(NSString *)title {
     return [self sheetItemWithIdentifier:identifier title:title userInfo:nil];
 }

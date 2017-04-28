@@ -17,6 +17,8 @@
 @property (nonatomic, getter=isEnabled) BOOL enabled;
 @property (nonatomic, getter=isSelected) BOOL selected;
 
++ (nullable JLTableSheetItem *)sheetItemWithTitle:(nullable NSString *)title;
+
 + (nullable JLTableSheetItem *)sheetItemWithIdentifier:(nullable NSString *)identifier title:(nullable NSString *)title;
 + (nullable JLTableSheetItem *)sheetItemWithIdentifier:(nullable NSString *)identifier title:(nullable NSString *)title userInfo:(nullable NSDictionary *)userInfo;
 
