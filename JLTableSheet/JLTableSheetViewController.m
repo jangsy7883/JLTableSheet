@@ -202,20 +202,32 @@
     [popupController presentInViewController:viewController];
 }
 
+#pragma mark - dismiss
+
 - (void)dismiss {
-    [self dismissWithCompletion:nil];
+    [self dismissIsComplete:NO completion:nil];
 }
 
 - (void)dismissWithCompletion:(void (^)(void))completion {
+    [self dismissIsComplete:NO completion:completion];
+}
+
+- (void)dismissIsComplete:(BOOL)isComplete completion:(void (^)(void))completion {
     dispatch_async(dispatch_get_main_queue(), ^{
+        if (self.willCompletion) {
+            self.willCompletion(isComplete,self.selectedItems);
+        }
+
         [self.popupController dismissWithCompletion:^{
             if (completion) {
                 completion();
             }
             if (self.completion) {
-                self.completion(NO, self.selectedItems);
+                self.completion(isComplete, self.selectedItems);
                 self.completion = nil;
             }
+            
+            self.changedSelectedItems = nil;
         }];
     });
 }
@@ -248,29 +260,15 @@
 #pragma mark - EVNET
 
 - (IBAction)backgroundViewDidTap:(id)sender {
-    [self pressedCancelButton:nil];
+    [self dismiss];
 }
 
 - (IBAction)pressedCancelButton:(id)sender {
-    [self dismissWithCompletion:^{
-        if (self.completion) {
-            self.completion(NO, self.selectedItems);
-            self.completion = nil;
-        }
-        
-        self.changedSelectedItems = nil;
-    }];
+    [self dismissIsComplete:NO completion:nil];
 }
 
 - (IBAction)pressedCompleteButton:(id)sender {
-    [self dismissWithCompletion:^{
-        if (self.completion) {
-            self.completion(YES, self.selectedItems);
-            self.completion = nil;
-        }
-        
-        self.changedSelectedItems = nil;
-    }];
+    [self dismissIsComplete:YES completion:nil];
 }
 
 #pragma mark - UIContentContainer

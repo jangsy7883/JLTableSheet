@@ -124,8 +124,12 @@
     tableSheetViewController.cellClass = [CustomSheetCell class];
     
     //Block
+    tableSheetViewController.willCompletion = ^(BOOL isCompleteAction, NSArray<JLTableSheetItem *> * _Nullable selectedItems) {
+        NSLog(@"1 %@",selectedItems);
+    };
+
     tableSheetViewController.completion = ^(BOOL isCompleteAction, NSArray<JLTableSheetItem *> *selectedItems) {
-        NSLog(@"%@",selectedItems);
+        NSLog(@"2 %@",selectedItems);
     };
     
     //
