@@ -553,9 +553,9 @@
 
 @end
 
-#ifdef __IPHONE_11_0
-@implementation JLTableSheetNavigationBar
 
+@implementation JLTableSheetNavigationBar
+#ifdef __IPHONE_11_0
 - (void)layoutSubviews {
     [super layoutSubviews];
 
