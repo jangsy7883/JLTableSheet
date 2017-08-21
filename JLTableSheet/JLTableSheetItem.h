@@ -20,6 +20,9 @@
 + (nullable JLTableSheetItem *)sheetItemWithTitle:(nullable NSString *)title;
 
 + (nullable JLTableSheetItem *)sheetItemWithIdentifier:(nullable NSString *)identifier title:(nullable NSString *)title;
-+ (nullable JLTableSheetItem *)sheetItemWithIdentifier:(nullable NSString *)identifier title:(nullable NSString *)title userInfo:(nullable NSDictionary *)userInfo;
+
++ (nullable JLTableSheetItem *)sheetItemWithIdentifier:(nullable NSString *)identifier
+                                                 title:(nullable NSString *)title
+                                              userInfo:(nullable NSDictionary *)userInfo;
 
 @end
