@@ -9,6 +9,9 @@
 #import "JLTableSheetViewController.h"
 #import <STPopup/STPopup.h>
 
+@interface JLTableSheetNavigationBar : UINavigationBar
+@end
+
 @interface JLTableSheetViewController ()<UITableViewDataSource,UITableViewDelegate,STPopupControllerTransitioning,UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) UIView *maskView;
@@ -16,7 +19,7 @@
 @property (nonatomic, strong) UIView * backgroundView;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UIView *headerContainerView;
-@property (nonatomic, strong) UINavigationBar *navigationBar;
+@property (nonatomic, strong) JLTableSheetNavigationBar *navigationBar;
 
 @property (nonatomic, assign) CGFloat minSheetHeight;
 @property (nonatomic, assign) CGFloat maxSheetHeight;
@@ -46,8 +49,8 @@
         _hidesCompleteButton = NO;
         _hidesCancelButton = NO;
         _minVisibleRow = 4.5;
-        _navigationBarHidden = NO;
         _maxVisibleRow = 0;
+        _navigationBarHidden = NO;
     }
     return self;
 }
@@ -107,7 +110,7 @@
     
     //headerContentView
     self.headerContainerView = [[UIView alloc] init];
-    self.headerContainerView.clipsToBounds = YES;
+    self.headerContainerView.clipsToBounds = NO;
     self.headerContainerView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.headerContainerView];
     
@@ -142,6 +145,10 @@
     UIEdgeInsets contentInset = UIEdgeInsetsMake(CGRectGetHeight(self.view.bounds)-_minSheetHeight, 0, 0, 0);
     if (!UIEdgeInsetsEqualToEdgeInsets(contentInset, self.tableView.contentInset)) {
         self.tableView.contentInset = contentInset;
+        NSLog(@"%f",self.tableView.contentInset.top);
+        
+//        UIScrollViewContentInsetAdjustmentBehavior
+
         [self.tableView setContentOffset:CGPointMake(0, -self.tableView.contentInset.top) animated:NO];
     }
     
@@ -490,13 +497,18 @@
         _tableView.showsHorizontalScrollIndicator = NO;
         _tableView.showsVerticalScrollIndicator = NO;
         _tableView.allowsMultipleSelection = _allowsMultipleSelection;
+#ifdef __IPHONE_11_0
+        if ([_tableView respondsToSelector:@selector(contentInsetAdjustmentBehavior)]) {
+            _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        }
+#endif
     }
     return _tableView;
 }
 
-- (UINavigationBar *)navigationBar {
+- (JLTableSheetNavigationBar *)navigationBar {
     if (!_navigationBar) {
-        _navigationBar = [[UINavigationBar alloc] init];
+        _navigationBar = [[JLTableSheetNavigationBar alloc] init];
         UINavigationItem *item = [[UINavigationItem alloc] init];
         _navigationBar.items = @[item];
     }
@@ -539,4 +551,27 @@
     return nil;
 }
 
+@end
+
+#ifdef __IPHONE_11_0
+@implementation JLTableSheetNavigationBar
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+
+    for (UIView *subview in self.subviews) {
+        NSString* subViewClassName = NSStringFromClass([subview class]);
+        if ([subViewClassName containsString:@"UIBarBackground"]) {
+            subview.frame = self.bounds;
+        }
+        else if ([subViewClassName containsString:@"UINavigationBarContentView"]) {
+            subview.frame = ({
+                CGRect rect = subview.frame;
+                rect.origin.y = CGRectGetHeight(self.bounds)-CGRectGetHeight(rect);
+                rect;
+            });
+        }
+    }
+}
+#endif
 @end
