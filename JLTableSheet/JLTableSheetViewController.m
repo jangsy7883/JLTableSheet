@@ -142,7 +142,7 @@
 #pragma mark - layout
 
 - (void)layoutContainerView {
-    UIEdgeInsets contentInset = UIEdgeInsetsMake(CGRectGetHeight(self.view.bounds)-_minSheetHeight, 0, 0, 0);
+    UIEdgeInsets contentInset = UIEdgeInsetsMake(CGRectGetHeight(self.view.bounds)-(_minSheetHeight+self.bottomLayoutGuide.length), 0, 0, 0);
     if (!UIEdgeInsetsEqualToEdgeInsets(contentInset, self.tableView.contentInset)) {
         self.tableView.contentInset = contentInset;
         
@@ -341,7 +341,7 @@
     [self layoutHeaderContainerView];
     
     CGFloat offset = scrollView.contentInset.top + scrollView.contentOffset.y;
-    CGFloat height = (CGRectGetHeight(self.headerContainerView.frame)+_minSheetHeight)*0.2;
+    CGFloat height = (CGRectGetHeight(self.headerContainerView.frame)+(_minSheetHeight+self.bottomLayoutGuide.length))*0.2;
 
     if (offset < -height && !_isDismiss) {
         _isDismiss = YES;
