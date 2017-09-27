@@ -145,10 +145,7 @@
     UIEdgeInsets contentInset = UIEdgeInsetsMake(CGRectGetHeight(self.view.bounds)-_minSheetHeight, 0, 0, 0);
     if (!UIEdgeInsetsEqualToEdgeInsets(contentInset, self.tableView.contentInset)) {
         self.tableView.contentInset = contentInset;
-        NSLog(@"%f",self.tableView.contentInset.top);
         
-//        UIScrollViewContentInsetAdjustmentBehavior
-
         [self.tableView setContentOffset:CGPointMake(0, -self.tableView.contentInset.top) animated:NO];
     }
     
@@ -329,6 +326,15 @@
     }
 }
 
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return self.bottomLayoutGuide.length;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    return [[UIView alloc] init];
+}
+
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -497,11 +503,9 @@
         _tableView.showsHorizontalScrollIndicator = NO;
         _tableView.showsVerticalScrollIndicator = NO;
         _tableView.allowsMultipleSelection = _allowsMultipleSelection;
-#ifdef __IPHONE_11_0
-        if ([_tableView respondsToSelector:@selector(contentInsetAdjustmentBehavior)]) {
+        if (@available(iOS 11.0, *)) {
             _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
         }
-#endif
     }
     return _tableView;
 }
